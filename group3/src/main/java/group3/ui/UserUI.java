@@ -3,6 +3,7 @@ package group3.ui;
 import java.util.Scanner;
 
 import group3.bl.UserBL;
+import group3.dal.UserDAL;
 import group3.persistance.ClearScreen;
 import group3.persistance.Model;
 
@@ -13,25 +14,22 @@ public class UserUI {
     public void loginScreen(String email, String pass) {
         ClearScreen.clear();
         // while (true) {
-            System.out.println("=====================================================================");
-            System.out.println("|                                LOGIN                              |");
-            System.out.println("+-------------------------------------------------------------------+");
-            email = Model.getEmail(email);
-            pass = Model.getPass(pass);
-            ubl.login(email, pass);
+        System.out.println("=====================================================================");
+        System.out.println("|                                LOGIN                              |");
+        System.out.println("+-------------------------------------------------------------------+");
+        email = Model.getEmail(email);
+        pass = Model.getPass(pass);
+        ubl.login(email, pass);
         // }
     }
 
-    public void registerScreen() {
+    public void registerScreen(String email, String pass) {
         while (true) {
             System.out.println("=====================================================================");
             System.out.println("|                           CREATE NEW ACCOUNT                      |");
             System.out.println("+-------------------------------------------------------------------+");
-            System.out.print("- Input your email (email@domain.com): ");
-            String email = getScanner().nextLine();
-            System.out.print("- Input your password: ");
-            String pass = getScanner().nextLine();
-
+            email = Model.getEmail(email);
+            pass = Model.getPass(pass);
         }
     }
 

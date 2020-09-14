@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import group3.persistance.ClearScreen;
 import group3.ui.UserUI;
 
 public class UserDAL {
@@ -20,7 +21,7 @@ public class UserDAL {
     public boolean login(String email, String pass) {
         boolean isLogin = false;
         try {
-            String sql = "CALL select_account('" + email + "','" + pass + "')";
+            String sql = "SELECT email, pass FROM users WHERE email = '" + email + "'AND pass = '" + pass + "'";
             connection = getConnection();
             pstmt = connection.prepareStatement(sql);
             rs = pstmt.executeQuery();
@@ -31,6 +32,9 @@ public class UserDAL {
                 } else {
                     UserUI.customerScreen();
                 }
+            } else {
+                ClearScreen.clear();
+                System.out.println("\n-- Account does not exist !!! --\n");
             }
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
