@@ -24,13 +24,21 @@ public class UserUI {
     }
 
     public void registerScreen(String email, String pass) {
-        while (true) {
+        ClearScreen.clear();
+        // while (true) {
             System.out.println("=====================================================================");
             System.out.println("|                           CREATE NEW ACCOUNT                      |");
             System.out.println("+-------------------------------------------------------------------+");
             email = Model.getEmail(email);
             pass = Model.getPass(pass);
-        }
+            System.out.print("\n- Password Authentication: ");
+            String password = getScanner().nextLine();
+            if (pass.equals(password)) {
+                ubl.register(email, pass);
+            } else {
+                System.out.println("\nRegister failed !");
+            }
+        // }
     }
 
     public static void fieldBlank(String field) {

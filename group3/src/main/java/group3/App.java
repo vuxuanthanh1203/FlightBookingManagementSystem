@@ -11,6 +11,7 @@ public class App {
         String email = null;
         String pass = null;
         UserUI ui = new UserUI();
-        ui.loginScreen(email, pass);
+        // ui.loginScreen(email, pass);
+        ui.registerScreen(email, pass);
     }
 }

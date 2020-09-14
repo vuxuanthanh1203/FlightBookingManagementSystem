@@ -44,7 +44,7 @@ public class UserDAL {
         return isLogin;
     }
 
-    public static void register(String email, String pass) {
+    public void register(String email, String pass) {
         try {
             String sql = "INSERT INTO users(email, pass, role_id) VALUES (?, ?, ?)";
             connection = getConnection();
