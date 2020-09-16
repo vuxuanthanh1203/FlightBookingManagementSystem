@@ -10,8 +10,15 @@ public class App {
         // UserDAL.register("", "");
         String email = null;
         String pass = null;
+        String oldPass = null;
+        String newPass = null;
+        String tel = null;
+        String id = null;
+        String address = null;
         UserUI ui = new UserUI();
-        // ui.loginScreen(email, pass);
-        ui.registerScreen(email, pass);
+        ui.loginScreen(email, pass);
+        // ui.registerScreen(email, pass, name, tel, id, address);
+        // ui.modifyAccount(email, name, tel, address);
+        ui.changePass(email, oldPass, newPass);
     }
 }

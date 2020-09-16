@@ -44,17 +44,21 @@ public class UserDAL {
         return isLogin;
     }
 
-    public void register(String email, String pass) {
+    public void register(String email, String pass, String name, String tel, String id, String address) {
         try {
-            String sql = "INSERT INTO users(email, pass, role_id) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO users(email, pass, full_name, tel, id_card, address, role_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
             connection = getConnection();
             pstmt = connection.prepareStatement(sql);
             pstmt.setString(1, email);
             pstmt.setString(2, pass);
-            pstmt.setInt(3, 2);
+            pstmt.setString(3, name);
+            pstmt.setString(4, tel);
+            pstmt.setString(5, id);
+            pstmt.setString(6, address);
+            pstmt.setInt(7, 2);
             int k = pstmt.executeUpdate();
             if (k == 1) {
-                System.out.println("\n-- Insert Successful ! --\n");
+                System.out.println("\n-- Insert Successfully ! --\n");
             } else {
                 System.out.println("\n-- Insert Failed !!! --\n");
             }
@@ -65,19 +69,17 @@ public class UserDAL {
         }
     }
 
-    public void modifyAccount(String email, String name, String tel, int idCard, String address) {
+    public void modifyAccount(String email, String name, String tel, String address) {
         try {
-            String sql = "UPDATE users SET full_name = ?, tel = ?, id_card = ?, address = ? WHERE email = '" + email
-                    + "'";
+            String sql = "UPDATE users SET full_name = ?, tel = ?, address = ? WHERE email = '" + email + "'";
             connection = getConnection();
             pstmt = connection.prepareStatement(sql);
             pstmt.setString(1, name);
             pstmt.setString(2, tel);
-            pstmt.setInt(3, idCard);
-            pstmt.setString(4, address);
+            pstmt.setString(3, address);
             int k = pstmt.executeUpdate();
             if (k == 1) {
-                System.out.println("\n-- Update Successful ! --\n");
+                System.out.println("\n-- Update Successfully ! --\n");
             } else {
                 System.out.println("\n-- Update Failed !!! --\n");
             }
@@ -117,6 +119,26 @@ public class UserDAL {
         }
     }
 
+    public static void selectAccount(String email) {
+        try {
+            String sql = "SELECT * FROM users WHERE email = '" + email + "'";
+            connection = getConnection();
+            pstmt = connection.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                System.out.println("- Email: " + rs.getString("email"));
+                System.out.println("- Name: " + rs.getString("full_name"));
+                System.out.println("- Tel: " + rs.getString("tel"));
+                System.out.println("- ID Card: " + rs.getString("id_card"));
+                System.out.println("- Address: " + rs.getString("address"));
+            }
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        }
+    }
+
     public int selectRole(String email) {
         int result = 0;
         try {
@@ -135,5 +157,39 @@ public class UserDAL {
             System.out.println("VendorError: " + e.getErrorCode());
         }
         return result;
+    }
+
+    public static boolean checkEmail(String email) {
+        try {
+            String sql = "SELECT email FROM users WHERE email = '" + email + "'";
+            connection = getConnection();
+            pstmt = connection.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        }
+        return false;
+    }
+
+    public static boolean checkPass(String pass) {
+        try {
+            String sql = "SELECT pass FROM users WHERE pass = '" + pass + "'";
+            connection = getConnection();
+            pstmt = connection.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        }
+        return false;
     }
 }

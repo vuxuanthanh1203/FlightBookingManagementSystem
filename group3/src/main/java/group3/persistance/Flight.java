@@ -5,6 +5,8 @@ public class Flight {
     private String arrivalLocation;
     private String departureTime;
     private String arrivalTime;
+    private String flightTime;
+    private String flightDate;
 
     public String getDepartureLocation() {
         return departureLocation;
@@ -37,4 +39,35 @@ public class Flight {
     public void setArrivalTime(String arrivalTime) {
         this.arrivalTime = arrivalTime;
     }
+
+    public String getFlightTime() {
+        return flightTime;
+    }
+
+    public void setFlightTime(String flightTime) {
+        this.flightTime = flightTime;
+    }
+
+    public String getFlightDate() {
+        return flightDate;
+    }
+
+    public void setFlightDate(String flightDate) {
+        this.flightDate = flightDate;
+    }
+
+    public Flight() {
+        
+    }
+
+    public Flight(String departureLocation, String arrivalLocation, String departureTime, String arrivalTime,
+            String flightTime, String flightDate) {
+        this.departureLocation = departureLocation;
+        this.arrivalLocation = arrivalLocation;
+        this.departureTime = departureTime;
+        this.arrivalTime = arrivalTime;
+        this.flightTime = flightTime;
+        this.flightDate = flightDate;
+    }
+
 }
