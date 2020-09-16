@@ -5,11 +5,10 @@ import java.util.Scanner;
 import group3.bl.UserBL;
 import group3.dal.UserDAL;
 import group3.persistance.ClearScreen;
-import group3.persistance.Model;
 import group3.persistance.PasswordField;
+import group3.persistance.User;
 
 public class UserUI {
-
     UserBL ubl = new UserBL();
 
     public void loginScreen(String email, String pass) {
@@ -17,9 +16,9 @@ public class UserUI {
         System.out.println("=====================================================================");
         System.out.println("|                                LOGIN                              |");
         System.out.println("+-------------------------------------------------------------------+");
-        email = Model.getEmail(email);
+        email = User.getEmail(email);
         System.out.print("\n- Input your password: ");
-        pass = Model.getPass(pass);
+        pass = User.getPass(pass);
         ubl.login(email, pass);
     }
 
@@ -28,14 +27,14 @@ public class UserUI {
         System.out.println("=====================================================================");
         System.out.println("|                           CREATE NEW ACCOUNT                      |");
         System.out.println("+-------------------------------------------------------------------+");
-        email = Model.checkEmail(email);
+        email = User.checkEmail(email);
         System.out.print("\n- Input your password: ");
-        pass = Model.getPass(pass);
-        String password = Model.getMd5(PasswordField.readPassword("\n- Confirm password: "));
-        name = Model.getName(name);
-        tel = Model.getTel(tel);
-        id = Model.getID(id);
-        address = Model.getAddress(address);
+        pass = User.getPass(pass);
+        String password = User.getMd5(PasswordField.readPassword("\n- Confirm password: "));
+        name = User.getName(name);
+        tel = User.getTel(tel);
+        id = User.getID(id);
+        address = User.getAddress(address);
 
         if (pass.equals(password)) {
             ubl.register(email, pass, name, tel, id, address);
@@ -51,9 +50,9 @@ public class UserUI {
         System.out.println("\n=====================================================================");
         System.out.println("|                            MODIFY ACCOUNT                         |");
         System.out.println("+-------------------------------------------------------------------+");
-        name = Model.getName(name);
-        tel = Model.getTel(tel);
-        address = Model.getAddress(address);
+        name = User.getName(name);
+        tel = User.getTel(tel);
+        address = User.getAddress(address);
         ubl.modifyAccount(email, name, tel, address);
     }
 
@@ -74,12 +73,12 @@ public class UserUI {
             System.out.println("|                            CHANGE PASSWORD                        |");
             System.out.println("+-------------------------------------------------------------------+");
             System.out.print("\n- Input your password: ");
-            oldPass = Model.getPass(oldPass);
+            oldPass = User.getPass(oldPass);
             if (!UserDAL.checkPass(oldPass)) {
                 System.out.println("\n(!) Incorrect Password !");
             } else {
                 System.out.print("\n- Input new password: ");
-                newPass = Model.getPass(newPass);
+                newPass = User.getPass(newPass);
                 if (newPass.equals(oldPass)) {
                     formChangePass();
                 } else {
@@ -92,7 +91,7 @@ public class UserUI {
     public static void fieldBlank(String field) {
         ClearScreen.clear();
         System.out.println("\n+-----------------------------------------------------+");
-        System.out.println("|              " + field + " is not blank --            |");
+        System.out.println(field);
         System.out.println("+-----------------------------------------------------+");
     }
 
