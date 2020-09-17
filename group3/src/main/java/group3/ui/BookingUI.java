@@ -15,6 +15,7 @@ public class BookingUI {
             int flightID) {
         // ClearScreen.clear();
         quantity = 0;
+        double total = 0;
         System.out.println("\n\n=====================================================================");
         System.out.println("|                         SELECT TRAVEL OPTION                      |");
         System.out.println("+-------------------------------------------------------------------+");
@@ -25,10 +26,11 @@ public class BookingUI {
         System.out.print("\n- Choose a seat type: ");
         String choice = getScanner().nextLine();
         String yon;
+        // BookingDAL bDal = new BookingDAL();
         switch (choice) {
             case "economy":
                 if (FlightDAL.checkERemain(flightID) == 0) {
-                    System.out.println("\n-- SOLD OUT !!!");
+                    System.out.println("\n-- SOLD OUT !!! --");
                 } else {
                     System.out.printf("\n- Grand Total: ");
                     BookingDAL.setEPrice(quantity);
@@ -51,7 +53,7 @@ public class BookingUI {
                 break;
             case "premium":
                 if (FlightDAL.checkPRemain(flightID) == 0) {
-                    System.out.println("\n-- SOLD OUT !!!");
+                    System.out.println("\n-- SOLD OUT !!! --");
                 } else {
                     System.out.printf("\n- Grand Total: ");
                     BookingDAL.setPPrice(quantity);
@@ -74,7 +76,7 @@ public class BookingUI {
                 break;
             case "business":
                 if (FlightDAL.checkBRemain(flightID) == 0) {
-                    System.out.println("\n-- SOLD OUT !!!");
+                    System.out.println("\n-- SOLD OUT !!! --");
                 } else {
                     System.out.printf("\n- Grand Total: ");
                     BookingDAL.setBPrice(quantity);
@@ -99,7 +101,56 @@ public class BookingUI {
                 UserUI.fieldBlank("|                  -- Invalid Selection --            |");
                 break;
         }
+    }
 
+    public void viewBooking(int userID) {
+        System.out.println(
+                "\n======================================================================================================================");
+        System.out.println(
+                "|                                                  LIST OF BOOKING                                                   |");
+        System.out.println(
+                "======================================================================================================================");
+        bal.viewBooking(userID);
+        System.out.println(
+                "-----------------------------------------------------------------------------------------------------------------------");
+    }
+
+    public void selectBooking(int bookingID, int userID) {
+        System.out.println(
+                "\n======================================================================================================================");
+        System.out.println(
+                "|                                                   BOOKING DETAIL                                                   |");
+        System.out.println(
+                "======================================================================================================================");
+        bal.selectBooking(bookingID, userID);
+        System.out.println(
+                "-----------------------------------------------------------------------------------------------------------------------");
+    }
+
+    public void cancelBooking(int bookingID, int userID) {
+        System.out.println(
+                "\n======================================================================================================================");
+        System.out.println(
+                "|                                                   CANCEL BOOKING                                                   |");
+        System.out.println(
+                "======================================================================================================================");
+        System.out.print("- Enter Booking ID: ");
+        bookingID = getScanner().nextInt();
+        selectBooking(bookingID, userID);
+        System.out.println("\n- Do You Really Want To Delete The Ticket ? (Y/N)");
+        String choice = getScanner().nextLine().toLowerCase();
+        switch (choice) {
+            case "y":
+                bal.cancelBooking(bookingID);
+                break;
+            case "n":
+                System.out.println("\n- No Cancel !");
+                viewBooking(userID);
+                break;
+            default:
+                System.out.println("\n-- Function does not exist ! --\n");
+                break;
+        }
     }
 
     public static Scanner getScanner() {

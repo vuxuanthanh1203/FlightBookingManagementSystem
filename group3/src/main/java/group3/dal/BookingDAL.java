@@ -28,7 +28,7 @@ public class BookingDAL {
             pstmt.setInt(1, quantity);
             pstmt.setString(2, dateFormat.format(date));
             pstmt.setDouble(3, totalCost);
-            pstmt.setInt(4, flightID );
+            pstmt.setInt(4, flightID);
             pstmt.setInt(5, userID);
             int k = pstmt.executeUpdate();
             if (k == 1) {
@@ -44,21 +44,21 @@ public class BookingDAL {
     }
 
     public static void setEPrice(int quantity) {
-        double total = 0;
+        double result = 0;
         try {
             String sql = "SELECT * FROM fares";
             connection = getConnection();
             pstmt = connection.prepareStatement(sql);
             rs = pstmt.executeQuery();
-            while (rs.next()) {
-                total = Double.parseDouble(rs.getString("e_fare")) * quantity;
+            if (rs.next()) {
+                result = rs.getDouble("e_fare") * quantity;
+                System.out.println(result + "00.000 VND");
             }
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
             System.out.println("SQLState: " + e.getSQLState());
             System.out.println("VendorError: " + e.getErrorCode());
         }
-        System.out.println(total + "00.000 VND");
     }
 
     public static void setPPrice(int quantity) {
@@ -69,14 +69,14 @@ public class BookingDAL {
             pstmt = connection.prepareStatement(sql);
             rs = pstmt.executeQuery();
             while (rs.next()) {
-                total = Double.parseDouble(rs.getString("p_fare")) * quantity;
+                total = rs.getDouble("p_fare") * quantity;
+                System.out.println(total + "00.000 VND");
             }
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
             System.out.println("SQLState: " + e.getSQLState());
             System.out.println("VendorError: " + e.getErrorCode());
         }
-        System.out.println(total + "00.000 VND");
     }
 
     public static void setBPrice(int quantity) {
@@ -87,13 +87,98 @@ public class BookingDAL {
             pstmt = connection.prepareStatement(sql);
             rs = pstmt.executeQuery();
             while (rs.next()) {
-                total = Double.parseDouble(rs.getString("b_fare")) * quantity;
+                total = rs.getDouble("b_fare") * quantity;
+                System.out.println(total + "00.000 VND");
             }
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
             System.out.println("SQLState: " + e.getSQLState());
             System.out.println("VendorError: " + e.getErrorCode());
         }
-        System.out.println(total + "00.000 VND");
+    }
+
+    public void viewBooking(int userID) {
+        try {
+            String sql = "CALL view_booking('" + userID + "')";
+            connection = getConnection();
+            pstmt = connection.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                System.out.print("\n- Ticket ID: " + rs.getInt("booking_id"));
+                System.out.println("\t\t\t\t\t\t\t\t- Flight Number: " + rs.getString("flight_num"));
+                System.out.print("\n- Flight Time: " + rs.getString("flight_time"));
+                System.out.println("\t\t\t\t\t\t\t- Full Name: " + rs.getString("full_name"));
+                System.out.print("\n- Departure Time: " + rs.getString("departure_time"));
+                System.out.print("  - Arrival Time: " + rs.getString("arrival_time"));
+                System.out.println("\t\t\t- Address: " + rs.getString("address"));
+                System.out.print("\n- Flight Date: " + rs.getString("flight_date"));
+                System.out.println("\t\t\t\t\t\t- Quantity: " + rs.getInt("quantity"));
+                System.out.print("\n- Departure Location: " + rs.getString("departure_loc"));
+                System.out.print("  - Arrival Location: " + rs.getString("arrival_loc"));
+                System.out.println("\t\t\t- Status: " + rs.getString("b_status") + "\n");
+                line();
+            }
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        }
+    }
+
+    public void selectBooking(int bookingID, int userID) {
+        int booking = 0;
+        try {
+            String sql = "CALL select_booking('" + userID + "','" + bookingID + "')";
+            connection = getConnection();
+            pstmt = connection.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                booking = rs.getInt("booking_id");
+
+                System.out.print("\n- Ticket ID: " + rs.getInt("booking_id"));
+                System.out.println("\t\t\t\t\t\t\t\t- Flight Number: " + rs.getString("flight_num"));
+                System.out.print("\n- Flight Time: " + rs.getString("flight_time"));
+                System.out.println("\t\t\t\t\t\t\t- Full Name: " + rs.getString("full_name"));
+                System.out.print("\n- Departure Time: " + rs.getString("departure_time"));
+                System.out.print("  - Arrival Time: " + rs.getString("arrival_time"));
+                System.out.println("\t\t\t- Address: " + rs.getString("address"));
+                System.out.print("\n- Flight Date: " + rs.getString("flight_date"));
+                System.out.println("\t\t\t\t\t\t- Quantity: " + rs.getInt("quantity"));
+                System.out.print("\n- Departure Location: " + rs.getString("departure_loc"));
+                System.out.print("  - Arrival Location: " + rs.getString("arrival_loc"));
+                System.out.println("\t\t\t- Status: " + rs.getString("b_status") + "\n");
+                line();
+            }
+            if (bookingID != booking) {
+                System.out.println("\n-- Booking Does Not Exist ! --\n");
+            }
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        }
+    }
+
+    public void cancelBooking(int bookingID) {
+        try {
+            String sql1 = "DELETE FROM bookings WHERE booking_id = '" + bookingID + "'";
+            connection = getConnection();
+            pstmt = connection.prepareStatement(sql1);
+            int k = pstmt.executeUpdate();
+            if (k == 1) {
+                System.out.println("\n-- Delete Complete ! --\n");
+            } else {
+                System.out.println("\n-- Delete Failed !!! --\n");
+            }
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        }
+    }
+
+    public void line() {
+        System.out.println(
+                "-----------------------------------------------------------------------------------------------------------------------");
     }
 }

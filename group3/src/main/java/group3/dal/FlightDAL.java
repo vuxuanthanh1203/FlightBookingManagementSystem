@@ -22,9 +22,9 @@ public class FlightDAL {
             pstmt = connection.prepareStatement(sql);
             rs = pstmt.executeQuery();
             while (rs.next()) {
-                String economy = rs.getString("e_fare") + ".000 VND";
-                String premium = rs.getString("p_fare") + ".000 VND";
-                String business = rs.getString("b_fare") + ".000 VND";
+                String economy = rs.getDouble("e_fare") + "00.000 VND";
+                String premium = rs.getDouble("p_fare") + "00.000 VND";
+                String business = rs.getDouble("b_fare") + "00.000 VND";
                 String e_remain = rs.getInt("remaining_e_seat") + "/" + rs.getInt("total_e_seat");
                 String p_remain = rs.getInt("remaining_p_seat") + "/" + rs.getInt("total_p_seat");
                 String b_remain = rs.getInt("remaining_b_seat") + "/" + rs.getInt("total_b_seat");
