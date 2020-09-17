@@ -7,6 +7,7 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 import group3.dal.UserDAL;
+import group3.ui.MenuUI;
 import group3.ui.UserUI;
 
 public class User {
@@ -74,6 +75,8 @@ public class User {
                 continue;
             } else if (email.equals("3")) {
                 UserUI.registerScreen(email, pass, name, tel, id_card, address);
+            }else if (email.equals("0")) {
+                MenuUI.menu();
             } else if (!isEmailValid(email)) {
                 UserUI.formEmail();
                 continue;

@@ -17,7 +17,7 @@ public class UserUI {
         System.out.println("=====================================================================");
         System.out.println("|                                LOGIN                              |");
         System.out.println("+-------------------------------------------------------------------+");
-        System.out.println("\n(*) Enter 3 To Create New Account");
+        System.out.println("\n(*) Enter 3 To Create New Account or 0 To Be Back !");
         email = User.getEmail(email);
         System.out.print("\n- Input your password: ");
         pass = User.getPass(pass);

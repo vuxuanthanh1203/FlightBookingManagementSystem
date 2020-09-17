@@ -133,6 +133,7 @@ public class MenuUI {
                     break;
                 case 2:
                     ClearScreen.clear();
+                    FlightUI.chooseSchedule();
                     bookingUI.booking(quantity, bookingDate, totalCost, UserDAL.user_id, flightID);
                     break;
                 case 3:

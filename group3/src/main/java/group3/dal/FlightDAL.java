@@ -4,10 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Scanner;
 
 import group3.bl.FlightBL;
 import group3.persistance.ClearScreen;
 import group3.ui.FlightUI;
+import group3.ui.Header;
 import group3.ui.MenuUI;
 
 public class FlightDAL {
@@ -28,10 +30,14 @@ public class FlightDAL {
             rs = pstmt.executeQuery();
             if (!rs.next()) {
                 ClearScreen.clear();
-                System.out.println("\n-- No matching results --\n");
                 if (UserDAL.isLogin) {
+                    System.out.println("\n-- No matching results --\n");
                     MenuUI.cusScreen();
                 } else {
+                    Header.header();
+                    System.out.println("\n-- No matching results --\n");
+                    System.out.print("\n- Enter to be back !");
+                    getScanner().nextLine();
                     MenuUI.menu();
                 }
             } else {
@@ -203,5 +209,9 @@ public class FlightDAL {
     public void line() {
         System.out.println(
                 "------------------------------------------------------------------------------------------------------------------------------------------------");
+    }
+
+    public static Scanner getScanner() {
+        return new Scanner(System.in);
     }
 }
