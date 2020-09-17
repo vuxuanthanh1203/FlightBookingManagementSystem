@@ -7,6 +7,11 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Scanner;
+
+import group3.persistance.ClearScreen;
+import group3.ui.Header;
+import group3.ui.MenuUI;
 
 public class BookingDAL {
     private static Connection connection = null;
@@ -160,7 +165,12 @@ public class BookingDAL {
                 line();
             }
             if (bookingID != booking) {
+                ClearScreen.clear();
+                Header.header();
                 System.out.println("\n-- Booking Does Not Exist ! --\n");
+                System.out.print("-- Enter to be back !");
+                getScanner().nextLine();
+                MenuUI.manageBooking();
             }
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
@@ -209,5 +219,9 @@ public class BookingDAL {
     public void line() {
         System.out.println(
                 "-----------------------------------------------------------------------------------------------------------------------");
+    }
+
+    public static Scanner getScanner() {
+        return new Scanner(System.in);
     }
 }

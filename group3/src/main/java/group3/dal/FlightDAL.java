@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-import group3.bl.FlightBL;
 import group3.persistance.ClearScreen;
 import group3.ui.FlightUI;
 import group3.ui.Header;
@@ -204,6 +203,63 @@ public class FlightDAL {
             System.out.println("VendorError: " + e.getErrorCode());
         }
         return false;
+    }
+
+    public void addFlight(String flight_num, int route, int fleet, int fare, String flightDate, String flightTime,
+            String departureTime, String arrivalTime) {
+        try {
+            String sql = "INSERT INTO users(flight_num, route_id, fleet_id, fare_id, flight_date, flight_time, departure_time, arrival_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            connection = getConnection();
+            pstmt = connection.prepareStatement(sql);
+            pstmt.setString(1, flight_num);
+            pstmt.setInt(2, route);
+            pstmt.setInt(3, fleet);
+            pstmt.setInt(4, fare);
+            pstmt.setString(5, flightDate);
+            pstmt.setString(6, flightTime);
+            pstmt.setString(7, departureTime);
+            pstmt.setString(7, arrivalTime);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        }
+    }
+
+    public void modifyFlight(String flightID, String flightDate, String departureTime, String arrivalTime) {
+        try {
+            System.out.println("\n- Confirm Modification (Y/N): ");
+            String choice = getScanner().nextLine().toLowerCase();
+            switch (choice) {
+                case "y":
+                    String sql = "UPDATE flights SET flight_date = ?, departure_time = ?, arrival_time = ? WHERE flight_id = '"
+                            + flightID + "'";
+                    connection = getConnection();
+                    pstmt = connection.prepareStatement(sql);
+                    pstmt.setString(1, flightDate);
+                    pstmt.setString(2, departureTime);
+                    pstmt.setString(3, arrivalTime);
+                    int k = pstmt.executeUpdate();
+                    if (k == 1) {
+                        ClearScreen.clear();
+                        System.out.println("\n-- Update Successfully ! --\n");
+                        Header.header();
+                    } else {
+                        System.out.println("\n-- Update Failed !!! --\n");
+                    }
+                    break;
+                case "n":
+                    ClearScreen.clear();
+                    MenuUI.adminScreen();
+                default:
+                    break;
+            }
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        }
     }
 
     public void line() {

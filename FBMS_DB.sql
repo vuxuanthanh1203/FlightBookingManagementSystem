@@ -97,7 +97,7 @@ INSERT INTO roles VALUES
 
 INSERT INTO users VALUES
 (null, 'vxt@gmail.com', 'f942cf0d8c018a45e529eb0120c6605d', 'VU XUAN THANH', '0965301752', '152216442', 'QUYNH PHU, THAI BINH', 2),
-(null, 'thanhvx@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 'VU XUAN THANH', '0123456789', '152216442', 'HOANG MAI, HA NOI', 1);
+(null, 'thanhvx@gmail.com', '2977ca89f053ca48c4ee8f3ba7c97e98', 'VU XUAN THANH', '0123456789', '152216442', 'HOANG MAI, HA NOI', 1);
 
 INSERT INTO fleets VALUES
 (null, 42, 60, 72);
@@ -232,5 +232,5 @@ DELIMITER ;
 
 -- DROP database flightbooking;
 
-select * from flightStatus;
+-- select * from flights;
 -- SELECT email, pass FROM users WHERE email = 'vxt@gmail.com' AND pass = '1234';

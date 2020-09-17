@@ -3,7 +3,7 @@ package group3.ui;
 import java.util.Scanner;
 
 import group3.bl.BookingBL;
-import group3.bl.FlightBL;
+// import group3.bl.FlightBL;
 import group3.dal.BookingDAL;
 import group3.dal.FlightDAL;
 import group3.dal.UserDAL;
@@ -17,14 +17,15 @@ public class BookingUI {
     String flightDate = "";
     private String email;
     private String pass;
-    private String name;
-    private String tel;
-    private String id;
-    private String address;
+    private static String type = "";
+    // private String name;
+    // private String tel;
+    // private String id;
+    // private String address;
     private static String total;
 
     private BookingBL bbl = new BookingBL();
-    private FlightBL fBl = new FlightBL();
+    // private FlightBL fBl = new FlightBL();
 
     public void booking(int quantity, String bookingDate, double totalCost, int userID, int flightID) {
         // ClearScreen.clear();
@@ -42,10 +43,10 @@ public class BookingUI {
         children = Booking.getChildren(children);
         quantity = adult + children;
         System.out.print("\n- Choose a seat type: ");
-        String choice = getScanner().nextLine();
+        type = getScanner().nextLine();
         String yon;
         // BookingDAL bDal = new BookingDAL();
-        switch (choice) {
+        switch (type) {
             case "economy":
                 if (FlightDAL.checkERemain(flightID) == 0) {
                     ClearScreen.clear();
@@ -258,12 +259,12 @@ public class BookingUI {
         System.out.println("+-------------------------------------------------------------------+");
         System.out.println("\n    All prices are in Vietnam Dong");
         System.out.println("\n    One Way Ticket");
+        System.out.println("\n  - Seat Type: " + type);
         System.out.println("\n  - From:  " + BookingDAL.departure + "\t\t\t To:  " + BookingDAL.arrival);
         System.out.println("\n  - Departure Date: " + FlightUI.date);
         System.out.println("\n  - Grand Total: " + total);
         System.out.println("\n    Number of Passengers:");
         System.out.println("\n  - Adults:  " + adult + "\t\t\t Children:  " + children);
-        // System.out.println("+-------------------------------------------------------------------+");
         System.out.println("=====================================================================");
     }
 

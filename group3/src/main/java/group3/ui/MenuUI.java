@@ -2,11 +2,8 @@ package group3.ui;
 
 import java.util.Scanner;
 
-import group3.bl.BookingBL;
-import group3.bl.UserBL;
 import group3.dal.UserDAL;
 import group3.persistance.ClearScreen;
-import group3.ui.Header;
 
 public class MenuUI {
     static int choice = 0;
@@ -73,39 +70,40 @@ public class MenuUI {
     }
 
     public static void manageBooking() {
-        // while (true) {
-            ClearScreen.clear();
-            Header.header();
-            System.out.println("\n=====================================================================");
-            System.out.println("|                             MANAGE BOOKING                        |");
-            System.out.println("+-------------------------------------------------------------------+");
-            System.out.println("|                                                                   |");
-            System.out.println("| 1. View Booking                                                   |");
-            System.out.println("|                                                                   |");
-            System.out.println("| 2. Cancel Booking                                                 |");
-            System.out.println("|                                                                   |");
-            System.out.println("| 3. Back                                                           |");
-            System.out.println("|                                                                   |");
-            System.out.println("+-------------------------------------------------------------------+\n");
+        menuManageBooking();
+        System.out.print("Choice your action: ");
+        choice = getScanner().nextInt();
+        switch (choice) {
+            case 1:
+                bookingUI.viewBooking(UserDAL.user_id);
+                break;
+            case 2:
+                bookingUI.cancelBooking(bookingID, UserDAL.user_id);
+                break;
+            case 3:
+                ClearScreen.clear();
+                cusScreen();
+                break;
+            default:
+                System.out.println("Function does not exist !");
+                break;
+        }
+    }
 
-            System.out.print("Choice your action: ");
-            choice = getScanner().nextInt();
-            BookingBL bbl = new BookingBL();
-            switch (choice) {
-                case 1:
-                    bookingUI.viewBooking(UserDAL.user_id);
-                    break;
-                case 2:
-                    bookingUI.cancelBooking(bookingID, UserDAL.user_id);
-                    break;
-                case 3:
-                    cusScreen();
-                    break;
-                default:
-                    System.out.println("Function does not exist !");
-                    break;
-            }
-        // }
+    public static void menuManageBooking() {
+        ClearScreen.clear();
+        Header.header();
+        System.out.println("\n=====================================================================");
+        System.out.println("|                             MANAGE BOOKING                        |");
+        System.out.println("+-------------------------------------------------------------------+");
+        System.out.println("|                                                                   |");
+        System.out.println("| 1. View Booking                                                   |");
+        System.out.println("|                                                                   |");
+        System.out.println("| 2. Cancel Booking                                                 |");
+        System.out.println("|                                                                   |");
+        System.out.println("| 3. Back                                                           |");
+        System.out.println("|                                                                   |");
+        System.out.println("+-------------------------------------------------------------------+\n");
     }
 
     public static void menu() {
@@ -128,7 +126,6 @@ public class MenuUI {
             choice = getScanner().nextInt();
             switch (choice) {
                 case 1:
-                    // ClearScreen.clear();
                     UserUI.login(email, pass);
                     break;
                 case 2:
@@ -137,6 +134,9 @@ public class MenuUI {
                     bookingUI.booking(quantity, bookingDate, totalCost, UserDAL.user_id, flightID);
                     break;
                 case 3:
+                    ClearScreen.clear();
+                    Header.header();
+                    System.out.println("\n(^.^) Thanks for choosing us ! (^.^)\n");
                     System.exit(0);
                     break;
                 default:
@@ -146,7 +146,46 @@ public class MenuUI {
     }
 
     public static void adminScreen() {
-        System.out.println("This is admin screen");
+        Header.header();
+        System.out.println("   Welcome Admin " + UserDAL.user_name + " To Flight Booking Management System !");
+        while (true) {
+            System.out.println("\n=====================================================================");
+            System.out.println("|                                MENU                               |");
+            System.out.println("+-------------------------------------------------------------------+");
+            System.out.println("|                                                                   |");
+            System.out.println("| 1. Manage Flight                                                  |");
+            System.out.println("|                                                                   |");
+            System.out.println("| 2. Manage Booking                                                 |");
+            System.out.println("|                                                                   |");
+            System.out.println("| 3. Logout                                                         |");
+            System.out.println("|                                                                   |");
+            System.out.println("+-------------------------------------------------------------------+\n");
+
+            System.out.print("Choice your action: ");
+            choice = getScanner().nextInt();
+            switch (choice) {
+                case 1:
+                    System.out.println("Manage Flight");
+                    break;
+                case 2:
+                    adminManageBooking();
+                    break;
+                case 4:
+                    userUI.changePass(email, pass, newPass);
+                    break;
+                case 5:
+                    UserDAL.resetKey();
+                    menu();
+                    break;
+                default:
+                    System.out.println("\n-- Function does not exist ! --");
+                    break;
+            }
+        }
+    }
+
+    public static void adminManageBooking() {
+        menuManageBooking();
     }
 
     public static Scanner getScanner() {
