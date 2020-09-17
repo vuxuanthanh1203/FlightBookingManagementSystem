@@ -5,6 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import group3.bl.FlightBL;
+import group3.persistance.ClearScreen;
+import group3.ui.FlightUI;
+
 public class FlightDAL {
     private static Connection connection = null;
     private static PreparedStatement pstmt = null;
@@ -15,9 +19,9 @@ public class FlightDAL {
         return conn;
     }
 
-    public void displayFlight(int route, String flightDate) {
+    public void displayFlight() {
         try {
-            String sql = "CALL search_flight('" + route + "','" + flightDate + "')";
+            String sql = "CALL search_flight('" + FlightUI.route + "','" + FlightUI.date + "')";
             connection = getConnection();
             pstmt = connection.prepareStatement(sql);
             rs = pstmt.executeQuery();
@@ -45,7 +49,6 @@ public class FlightDAL {
                         rs.getString("departure_loc"), rs.getString("arrival_loc"), rs.getString("flight_time"),
                         e_remain, p_remain, b_remain);
                 line();
-
             }
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
@@ -66,7 +69,7 @@ public class FlightDAL {
                 pstmt = connection.prepareStatement(sql1);
                 pstmt.setInt(1, rs.getInt("remaining_e_seat") - quantity);
                 pstmt.executeUpdate();
-                
+
             }
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
@@ -132,9 +135,9 @@ public class FlightDAL {
         }
         return eRemain;
     }
-    
+
     public static int checkPRemain(int flightID) {
-        int pRemain = 0; 
+        int pRemain = 0;
         try {
             String sql = "SELECT * FROM flightStatus WHERE flight_id = '" + flightID + "'";
             connection = getConnection();
@@ -150,7 +153,7 @@ public class FlightDAL {
         }
         return pRemain;
     }
-    
+
     public static int checkBRemain(int flightID) {
         int bRemain = 0;
         try {

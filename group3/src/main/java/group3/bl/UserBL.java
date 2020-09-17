@@ -17,7 +17,7 @@ public class UserBL {
         uDal.modifyAccount(email, name, tel, address);
     }
 
-    public void changePassword(String email, String oldPass, String newPass) {
-        uDal.changePassword(email, oldPass, newPass);
+    public void changePassword(String oldPass, String newPass) {
+        uDal.changePassword(oldPass, newPass);
     }
 }

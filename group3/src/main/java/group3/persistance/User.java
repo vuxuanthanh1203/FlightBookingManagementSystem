@@ -10,12 +10,12 @@ import group3.dal.UserDAL;
 import group3.ui.UserUI;
 
 public class User {
-    private String email;
-    private String pass;
-    private String name;
-    private String tel;
-    private int id_card;
-    private String address;
+    private String email = "";
+    private static String pass = "";
+    private static String name = "";
+    private static String tel = "";
+    private static String id_card = "";
+    private static String address = "";
 
     public String getEmail() {
         return email;
@@ -30,7 +30,7 @@ public class User {
     }
 
     public void setPass(String pass) {
-        this.pass = pass;
+        User.pass = pass;
     }
 
     public String getName() {
@@ -38,7 +38,7 @@ public class User {
     }
 
     public void setName(String name) {
-        this.name = name;
+        User.name = name;
     }
 
     public String getTel() {
@@ -46,15 +46,15 @@ public class User {
     }
 
     public void setTel(String tel) {
-        this.tel = tel;
+        User.tel = tel;
     }
 
-    public int getId_card() {
+    public String getId_card() {
         return id_card;
     }
 
-    public void setId_card(int id_card) {
-        this.id_card = id_card;
+    public void setId_card(String id_card) {
+        User.id_card = id_card;
     }
 
     public String getAddress() {
@@ -62,7 +62,7 @@ public class User {
     }
 
     public void setAddress(String address) {
-        this.address = address;
+        User.address = address;
     }
 
     public static String getEmail(String email) {
@@ -72,6 +72,8 @@ public class User {
             if (email.isEmpty()) {
                 UserUI.fieldBlank("|                 -- Email is not blank --            |");
                 continue;
+            } else if (email.equals("3")) {
+                UserUI.registerScreen(email, pass, name, tel, id_card, address);
             } else if (!isEmailValid(email)) {
                 UserUI.formEmail();
                 continue;
@@ -118,7 +120,7 @@ public class User {
     public static String getName(String name) {
         while (true) {
             System.out.print("\n- Input your full name: ");
-            name = getScanner().nextLine();
+            name = getScanner().nextLine().toUpperCase();
             if (name.isEmpty()) {
                 UserUI.fieldBlank("|                  -- Name is not blank --            |");
                 continue;
@@ -127,11 +129,11 @@ public class User {
         }
         return name;
     }
-    
+
     public static String getAddress(String address) {
         while (true) {
             System.out.print("\n- Input your address: ");
-            address = getScanner().nextLine();
+            address = getScanner().nextLine().toUpperCase();
             if (address.isEmpty()) {
                 UserUI.fieldBlank("|               -- Address is not blank --            |");
                 continue;
@@ -157,20 +159,20 @@ public class User {
         return tel;
     }
 
-    public static String getID(String idCard) {
+    public static String getID(String id_card) {
         while (true) {
             System.out.print("\n- Input your ID card: ");
-            idCard = getScanner().nextLine();
-            if (idCard.isEmpty()) {
+            id_card = getScanner().nextLine();
+            if (id_card.isEmpty()) {
                 UserUI.fieldBlank("|               -- ID Card is not blank --            |");
                 continue;
-            } else if (!isIDValid(idCard)) {
+            } else if (!isIDValid(id_card)) {
                 UserUI.formIdCard();
                 continue;
             }
             break;
         }
-        return idCard;
+        return id_card;
     }
 
     public static String getMd5(String input) {

@@ -1,5 +1,8 @@
 package group3.persistance;
 
+import java.util.Scanner;
+import java.util.regex.Pattern;
+
 public class Flight {
     private String departureLocation;
     private String arrivalLocation;
@@ -56,18 +59,29 @@ public class Flight {
         this.flightDate = flightDate;
     }
 
-    public Flight() {
-        
+    public static String getDate(String Date) {
+        while (true) {
+            Date = getScanner().nextLine();
+            if (!isDateValid(Date)) {
+                System.out.println("\n- Invalid date !!!");
+                continue;
+            }
+            break;
+        }
+        return Date;
     }
 
-    public Flight(String departureLocation, String arrivalLocation, String departureTime, String arrivalTime,
-            String flightTime, String flightDate) {
-        this.departureLocation = departureLocation;
-        this.arrivalLocation = arrivalLocation;
-        this.departureTime = departureTime;
-        this.arrivalTime = arrivalTime;
-        this.flightTime = flightTime;
-        this.flightDate = flightDate;
+    public static boolean isDateValid(String date) {
+        Pattern DATE_PATTERN = Pattern.compile("^\\d{4}(-|/)\\d{2}(-|)/\\d{2}$");
+        return DATE_PATTERN.matcher(date).matches();
     }
 
+    public static boolean isTimeValid(String time) {
+        Pattern TIME24HOURS_PATTERN = Pattern.compile("([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]");
+        return TIME24HOURS_PATTERN.matcher(time).matches();
+    }
+    
+    public static Scanner getScanner() {
+        return new Scanner(System.in);
+    }
 }

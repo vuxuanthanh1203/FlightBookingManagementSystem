@@ -13,6 +13,11 @@ public class BookingDAL {
     private static PreparedStatement pstmt = null;
     private static ResultSet rs = null;
 
+    public static String departure = "";
+    public static String arrival = "";
+    public static double total = 0;
+    public static String result = "";
+
     private static Connection getConnection() throws SQLException {
         Connection conn = DbUtil.getInstance().getConnection();
         return conn;
@@ -43,26 +48,27 @@ public class BookingDAL {
         }
     }
 
-    public static void setEPrice(int quantity) {
-        double result = 0;
+    public static String setEPrice(int quantity) {
+        
         try {
             String sql = "SELECT * FROM fares";
             connection = getConnection();
             pstmt = connection.prepareStatement(sql);
             rs = pstmt.executeQuery();
             if (rs.next()) {
-                result = rs.getDouble("e_fare") * quantity;
-                System.out.println(result + "00.000 VND");
+                total = rs.getDouble("e_fare") * quantity;
+                result = total + "00.000 VND";
+                // System.out.println(result);
             }
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
             System.out.println("SQLState: " + e.getSQLState());
             System.out.println("VendorError: " + e.getErrorCode());
         }
+        return result;
     }
 
-    public static void setPPrice(int quantity) {
-        double total = 0;
+    public static String setPPrice(int quantity) {
         try {
             String sql = "SELECT * FROM fares";
             connection = getConnection();
@@ -70,16 +76,18 @@ public class BookingDAL {
             rs = pstmt.executeQuery();
             while (rs.next()) {
                 total = rs.getDouble("p_fare") * quantity;
-                System.out.println(total + "00.000 VND");
+                result = total + "00.000 VND";
+                // System.out.println(result);
             }
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
             System.out.println("SQLState: " + e.getSQLState());
             System.out.println("VendorError: " + e.getErrorCode());
         }
+        return result;
     }
 
-    public static void setBPrice(int quantity) {
+    public static String setBPrice(int quantity) {
         double total = 0;
         try {
             String sql = "SELECT * FROM fares";
@@ -88,13 +96,15 @@ public class BookingDAL {
             rs = pstmt.executeQuery();
             while (rs.next()) {
                 total = rs.getDouble("b_fare") * quantity;
-                System.out.println(total + "00.000 VND");
+                result = total + "00.000 VND";
+                // System.out.println(result);
             }
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
             System.out.println("SQLState: " + e.getSQLState());
             System.out.println("VendorError: " + e.getErrorCode());
         }
+        return result;
     }
 
     public void viewBooking(int userID) {
@@ -169,6 +179,25 @@ public class BookingDAL {
                 System.out.println("\n-- Delete Complete ! --\n");
             } else {
                 System.out.println("\n-- Delete Failed !!! --\n");
+            }
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        }
+    }
+
+    public static void selectRoute(int route) {
+        try {
+            String sql = "SELECT * FROM routes WHERE route_id = '" + route + "'";
+            connection = getConnection();
+            pstmt = connection.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                departure = rs.getString("departure_loc");
+                arrival = rs.getString("arrival_loc");
+            } else {
+                System.out.println("\n Cannot get role !!!\n");
             }
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
