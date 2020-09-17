@@ -41,7 +41,11 @@ public class UserUI {
 
         if (pass.equals(password)) {
             ubl.register(email, pass, name, tel, id, address);
-            System.out.println("\n- Use the email and password you just registered to login !");
+            System.out.println("\n\n- Sign Up Success !");
+            System.out.println("\n- You need to login to use the next function !");
+            System.out.println("\n=====================================================================");
+            System.out.print("\n- Enter to be back !");
+            getScanner().nextLine();
             login(email, pass);
         } else {
             System.out.println("\nIncorrect password !");

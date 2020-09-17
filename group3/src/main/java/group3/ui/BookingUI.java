@@ -23,7 +23,7 @@ public class BookingUI {
     private String address;
     private static String total;
 
-    private BookingBL bal = new BookingBL();
+    private BookingBL bbl = new BookingBL();
     private FlightBL fBl = new FlightBL();
 
     public void booking(int quantity, String bookingDate, double totalCost, int userID, int flightID) {
@@ -64,7 +64,7 @@ public class BookingUI {
                             case "y":
                                 ClearScreen.clear();
                                 FlightDAL.updateERemain(quantity, flightID);
-                                bal.booking(quantity, bookingDate, totalCost, userID, flightID);
+                                bbl.booking(quantity, bookingDate, totalCost, userID, flightID);
                                 MenuUI.cusScreen();
                                 break;
                             case "n":
@@ -101,7 +101,7 @@ public class BookingUI {
                             case "y":
                                 ClearScreen.clear();
                                 FlightDAL.updatePRemain(quantity, flightID);
-                                bal.booking(quantity, bookingDate, totalCost, userID, flightID);
+                                bbl.booking(quantity, bookingDate, totalCost, userID, flightID);
                                 MenuUI.cusScreen();
                                 break;
                             case "n":
@@ -138,7 +138,7 @@ public class BookingUI {
                             case "y":
                                 ClearScreen.clear();
                                 FlightDAL.updateBRemain(quantity, flightID);
-                                bal.booking(quantity, bookingDate, totalCost, userID, flightID);
+                                bbl.booking(quantity, bookingDate, totalCost, userID, flightID);
                                 MenuUI.cusScreen();
                                 break;
                             case "n":
@@ -164,48 +164,60 @@ public class BookingUI {
     }
 
     public void viewBooking(int userID) {
+        ClearScreen.clear();
+        Header.header();
         System.out.println(
                 "\n======================================================================================================================");
         System.out.println(
                 "|                                                  LIST OF BOOKING                                                   |");
         System.out.println(
                 "======================================================================================================================");
-        bal.viewBooking(userID);
+        bbl.viewBooking(userID);
         System.out.println(
                 "-----------------------------------------------------------------------------------------------------------------------");
+        System.out.print("\n- Enter to be back !");
+        getScanner().nextLine();
+        ClearScreen.clear();
+        MenuUI.cusScreen();
     }
 
     public void selectBooking(int bookingID, int userID) {
+        ClearScreen.clear();
+        Header.header();
         System.out.println(
                 "\n======================================================================================================================");
         System.out.println(
                 "|                                                   BOOKING DETAIL                                                   |");
         System.out.println(
                 "======================================================================================================================");
-        bal.selectBooking(bookingID, userID);
+        bbl.selectBooking(bookingID, userID);
         System.out.println(
                 "-----------------------------------------------------------------------------------------------------------------------");
     }
 
     public void cancelBooking(int bookingID, int userID) {
+        ClearScreen.clear();
+        Header.header();
         System.out.println(
                 "\n======================================================================================================================");
         System.out.println(
                 "|                                                   CANCEL BOOKING                                                   |");
         System.out.println(
                 "======================================================================================================================");
-        System.out.print("- Enter Booking ID: ");
+        System.out.print("\n- Enter Booking ID: ");
         bookingID = getScanner().nextInt();
-        selectBooking(bookingID, userID);
+        selectBooking(bookingID, UserDAL.user_id);
         System.out.println("\n- Do You Really Want To Delete The Ticket ? (Y/N)");
         String choice = getScanner().nextLine().toLowerCase();
         switch (choice) {
             case "y":
-                bal.cancelBooking(bookingID);
+                ClearScreen.clear();
+                bbl.cancelBooking(bookingID);
                 break;
             case "n":
+                ClearScreen.clear();
                 System.out.println("\n- No Cancel !");
-                viewBooking(userID);
+                MenuUI.cusScreen();
                 break;
             default:
                 System.out.println("\n-- Function does not exist ! --\n");

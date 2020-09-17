@@ -67,12 +67,7 @@ public class UserDAL {
             pstmt.setString(5, id);
             pstmt.setString(6, address);
             pstmt.setInt(7, 2);
-            int k = pstmt.executeUpdate();
-            if (k == 1) {
-                System.out.println("\n-- Insert Successfully ! --\n");
-            } else {
-                System.out.println("\n-- Insert Failed !!! --\n");
-            }
+            pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
             System.out.println("SQLState: " + e.getSQLState());

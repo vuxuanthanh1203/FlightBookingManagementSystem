@@ -73,7 +73,7 @@ public class MenuUI {
     }
 
     public static void manageBooking() {
-        while (true) {
+        // while (true) {
             ClearScreen.clear();
             Header.header();
             System.out.println("\n=====================================================================");
@@ -94,10 +94,9 @@ public class MenuUI {
             switch (choice) {
                 case 1:
                     bookingUI.viewBooking(UserDAL.user_id);
-                    // bbl.viewBooking(UserDAL.user_id);
                     break;
                 case 2:
-                    bbl.cancelBooking(bookingID);
+                    bookingUI.cancelBooking(bookingID, UserDAL.user_id);
                     break;
                 case 3:
                     cusScreen();
@@ -106,7 +105,7 @@ public class MenuUI {
                     System.out.println("Function does not exist !");
                     break;
             }
-        }
+        // }
     }
 
     public static void menu() {
