@@ -74,14 +74,15 @@ public class MenuUI {
 
     public static void manageBooking() {
         while (true) {
+            ClearScreen.clear();
             Header.header();
             System.out.println("\n=====================================================================");
             System.out.println("|                             MANAGE BOOKING                        |");
             System.out.println("+-------------------------------------------------------------------+");
             System.out.println("|                                                                   |");
-            System.out.println("| 1. View Ticket                                                    |");
+            System.out.println("| 1. View Booking                                                   |");
             System.out.println("|                                                                   |");
-            System.out.println("| 2. Cancel Ticket                                                  |");
+            System.out.println("| 2. Cancel Booking                                                 |");
             System.out.println("|                                                                   |");
             System.out.println("| 3. Back                                                           |");
             System.out.println("|                                                                   |");
@@ -92,7 +93,8 @@ public class MenuUI {
             BookingBL bbl = new BookingBL();
             switch (choice) {
                 case 1:
-                    bbl.viewBooking(UserDAL.user_id);
+                    bookingUI.viewBooking(UserDAL.user_id);
+                    // bbl.viewBooking(UserDAL.user_id);
                     break;
                 case 2:
                     bbl.cancelBooking(bookingID);

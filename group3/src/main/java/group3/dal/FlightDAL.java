@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import group3.bl.FlightBL;
 import group3.persistance.ClearScreen;
 import group3.ui.FlightUI;
+import group3.ui.MenuUI;
 
 public class FlightDAL {
     private static Connection connection = null;
@@ -25,30 +26,40 @@ public class FlightDAL {
             connection = getConnection();
             pstmt = connection.prepareStatement(sql);
             rs = pstmt.executeQuery();
-            while (rs.next()) {
-                String economy = rs.getDouble("e_fare") + "00.000 VND";
-                String premium = rs.getDouble("p_fare") + "00.000 VND";
-                String business = rs.getDouble("b_fare") + "00.000 VND";
-                String e_remain = rs.getInt("remaining_e_seat") + "/" + rs.getInt("total_e_seat");
-                String p_remain = rs.getInt("remaining_p_seat") + "/" + rs.getInt("total_p_seat");
-                String b_remain = rs.getInt("remaining_b_seat") + "/" + rs.getInt("total_b_seat");
-                if (rs.getInt("remaining_e_seat") == 0) {
-                    e_remain = "SOLD OUT";
+            if (!rs.next()) {
+                ClearScreen.clear();
+                System.out.println("\n-- No matching results --\n");
+                if (UserDAL.isLogin) {
+                    MenuUI.cusScreen();
+                } else {
+                    MenuUI.menu();
                 }
-                if (rs.getInt("remaining_p_seat") == 0) {
-                    p_remain = "SOLD OUT";
+            } else {
+                while (rs.next()) {
+                    String economy = rs.getDouble("e_fare") + "00.000 VND";
+                    String premium = rs.getDouble("p_fare") + "00.000 VND";
+                    String business = rs.getDouble("b_fare") + "00.000 VND";
+                    String e_remain = rs.getInt("remaining_e_seat") + "/" + rs.getInt("total_e_seat");
+                    String p_remain = rs.getInt("remaining_p_seat") + "/" + rs.getInt("total_p_seat");
+                    String b_remain = rs.getInt("remaining_b_seat") + "/" + rs.getInt("total_b_seat");
+                    if (rs.getInt("remaining_e_seat") == 0) {
+                        e_remain = "SOLD OUT";
+                    }
+                    if (rs.getInt("remaining_p_seat") == 0) {
+                        p_remain = "SOLD OUT";
+                    }
+                    if (rs.getInt("remaining_b_seat") == 0) {
+                        b_remain = "SOLD OUT";
+                    }
+                    String day = "";
+                    System.out.printf("\n %3d %15s %14s %14s %16s %24s %22s %23s \n", rs.getInt("flight_id"),
+                            rs.getString("flight_date"), rs.getString("departure_time"), rs.getString("arrival_time"),
+                            rs.getString("flight_num"), economy, premium, business);
+                    System.out.printf("\n %3s %15s %11s %14s %20s %21s %22s %23s \n", day, day,
+                            rs.getString("departure_loc"), rs.getString("arrival_loc"), rs.getString("flight_time"),
+                            e_remain, p_remain, b_remain);
+                    line();
                 }
-                if (rs.getInt("remaining_b_seat") == 0) {
-                    b_remain = "SOLD OUT";
-                }
-                String day = "";
-                System.out.printf("\n %3d %15s %14s %14s %16s %24s %22s %23s \n", rs.getInt("flight_id"),
-                        rs.getString("flight_date"), rs.getString("departure_time"), rs.getString("arrival_time"),
-                        rs.getString("flight_num"), economy, premium, business);
-                System.out.printf("\n %3s %15s %11s %14s %20s %21s %22s %23s \n", day, day,
-                        rs.getString("departure_loc"), rs.getString("arrival_loc"), rs.getString("flight_time"),
-                        e_remain, p_remain, b_remain);
-                line();
             }
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
