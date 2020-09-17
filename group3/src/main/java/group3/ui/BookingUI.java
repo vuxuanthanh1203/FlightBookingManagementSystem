@@ -68,18 +68,16 @@ public class BookingUI {
                                 MenuUI.cusScreen();
                                 break;
                             case "n":
+                                ClearScreen.clear();
+                                System.out.println("\n- Booking failed !!!");
                                 if (UserDAL.isLogin) {
-                                    ClearScreen.clear();
-                                    System.out.println("\n- Booking failed !!!");
                                     MenuUI.cusScreen();
                                 } else {
-                                    ClearScreen.clear();
-                                    System.out.println("\n- Booking failed !!!");
                                     MenuUI.menu();
                                 }
                                 break;
                             default:
-                                System.out.println("Function does not exist !");
+                                System.out.println("\n- Function does not exist !");
                                 break;
                         }
                     }
@@ -101,10 +99,14 @@ public class BookingUI {
                         yon = getScanner().nextLine().toLowerCase();
                         switch (yon) {
                             case "y":
+                                ClearScreen.clear();
                                 FlightDAL.updatePRemain(quantity, flightID);
                                 bal.booking(quantity, bookingDate, totalCost, userID, flightID);
+                                MenuUI.cusScreen();
                                 break;
                             case "n":
+                                ClearScreen.clear();
+                                System.out.println("\n- Booking failed !!!");
                                 if (UserDAL.isLogin) {
                                     MenuUI.cusScreen();
                                 } else {
@@ -134,10 +136,14 @@ public class BookingUI {
                         yon = getScanner().nextLine().toLowerCase();
                         switch (yon) {
                             case "y":
+                                ClearScreen.clear();
                                 FlightDAL.updateBRemain(quantity, flightID);
                                 bal.booking(quantity, bookingDate, totalCost, userID, flightID);
+                                MenuUI.cusScreen();
                                 break;
                             case "n":
+                                ClearScreen.clear();
+                                System.out.println("\n- Booking failed !!!");
                                 if (UserDAL.isLogin) {
                                     MenuUI.cusScreen();
                                 } else {
