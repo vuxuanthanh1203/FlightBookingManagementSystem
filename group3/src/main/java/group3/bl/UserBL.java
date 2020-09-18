@@ -20,4 +20,8 @@ public class UserBL {
     public void changePassword(String oldPass, String newPass) {
         uDal.changePassword(oldPass, newPass);
     }
+
+    public void registerPreOrder(String email, String name, String tel, String id, String address) {
+        uDal.registerPreOrder(email, name, tel, id, address);
+    }
 }

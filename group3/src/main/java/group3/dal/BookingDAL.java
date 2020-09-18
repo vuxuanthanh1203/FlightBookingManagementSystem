@@ -42,9 +42,47 @@ public class BookingDAL {
             pstmt.setInt(5, userID);
             int k = pstmt.executeUpdate();
             if (k == 1) {
+                ClearScreen.clear();
                 System.out.println("\n-- Booking Successful ! --\n");
             } else {
+                ClearScreen.clear();
                 System.out.println("\n-- Booking Failed !!! --\n");
+            }
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        }
+    }
+
+    public void bookingGuest(int quantity, String bookingDate, double totalCost, int userID, int flightID) {
+        try {
+            int last_id = UserDAL.selectLastUser();
+            System.out.println("last id = " + last_id);
+            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            Date date = new Date();
+            String sql = "INSERT INTO bookings(quantity, booking_date, total_cost, flight_id, user_id) VALUES (?, ?, ?, ?, ?)";
+            connection = getConnection();
+            pstmt = connection.prepareStatement(sql);
+            pstmt.setInt(1, quantity);
+            pstmt.setString(2, dateFormat.format(date));
+            pstmt.setDouble(3, totalCost);
+            pstmt.setInt(4, flightID);
+            pstmt.setInt(5, last_id);
+            int k = pstmt.executeUpdate();
+            if (k == 1) {
+                ClearScreen.clear();
+                Header.header();
+                System.out.println("\n-- Booking Successful ! --\n");
+                System.out.println("\n-- Enter to Continue ! --\n");
+                getScanner().nextLine();
+                MenuUI.menu();
+            } else {
+                ClearScreen.clear();
+                System.out.println("\n-- Booking Failed !!! --\n");
+                System.out.println("\n-- Enter to Continue ! --\n");
+                getScanner().nextLine();
+                MenuUI.menu();
             }
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
@@ -63,7 +101,6 @@ public class BookingDAL {
             if (rs.next()) {
                 total = rs.getDouble("e_fare") * quantity;
                 result = total + "00.000 VND";
-                // System.out.println(result);
             }
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
@@ -82,7 +119,6 @@ public class BookingDAL {
             while (rs.next()) {
                 total = rs.getDouble("p_fare") * quantity;
                 result = total + "00.000 VND";
-                // System.out.println(result);
             }
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
@@ -102,7 +138,6 @@ public class BookingDAL {
             while (rs.next()) {
                 total = rs.getDouble("b_fare") * quantity;
                 result = total + "00.000 VND";
-                // System.out.println(result);
             }
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
@@ -115,6 +150,36 @@ public class BookingDAL {
     public void viewBooking(int userID) {
         try {
             String sql = "CALL view_booking('" + userID + "')";
+            connection = getConnection();
+            pstmt = connection.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                System.out.print("\n- Booking ID: " + rs.getInt("booking_id"));
+                System.out.println("\t\t\t\t\t\t\t\t- Flight Number: " + rs.getString("flight_num"));
+                System.out.print("\n- Flight Time: " + rs.getString("flight_time"));
+                System.out.println("\t\t\t\t\t\t\t- Full Name: " + rs.getString("full_name"));
+                System.out.print("\n- Departure Time: " + rs.getString("departure_time"));
+                System.out.print("  - Arrival Time: " + rs.getString("arrival_time"));
+                System.out.println("\t\t\t- Address: " + rs.getString("address"));
+                System.out.print("\n- Flight Date: " + rs.getString("flight_date"));
+                System.out.println("\t\t\t\t\t\t- Quantity: " + rs.getInt("quantity"));
+                System.out.print("\n- Departure Location: " + rs.getString("departure_loc"));
+                System.out.print("  - Arrival Location: " + rs.getString("arrival_loc"));
+                System.out.println("\t\t\t- Status: " + rs.getString("b_status") + "\n");
+                line();
+            } else {
+                System.out.println("\n-- No matching results --\n");
+            }
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        }
+    }
+
+    public void viewBookingGuest(String email) {
+        try {
+            String sql = "CALL view_booking_guest('" + email + "')";
             connection = getConnection();
             pstmt = connection.prepareStatement(sql);
             rs = pstmt.executeQuery();
@@ -294,6 +359,7 @@ public class BookingDAL {
             System.out.println("VendorError: " + e.getErrorCode());
         }
     }
+    
 
     public void line() {
         System.out.println(

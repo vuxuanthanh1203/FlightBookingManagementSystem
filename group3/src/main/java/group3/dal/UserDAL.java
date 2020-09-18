@@ -9,7 +9,6 @@ import java.util.Scanner;
 import group3.persistance.ClearScreen;
 import group3.ui.Header;
 import group3.ui.MenuUI;
-// import group3.ui.UserUI;
 import group3.ui.UserUI;
 
 public class UserDAL {
@@ -17,6 +16,7 @@ public class UserDAL {
     private static PreparedStatement pstmt = null;
     private static ResultSet rs = null;
     public static int user_id;
+    public static int last_id;
     public static String user_name;
     public static String user_email;
     public static boolean isLogin = false;
@@ -68,6 +68,25 @@ public class UserDAL {
             pstmt.setString(5, id);
             pstmt.setString(6, address);
             pstmt.setInt(7, 2);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        }
+    }
+
+    public void registerPreOrder(String email, String name, String tel, String id, String address) {
+        try {
+            String sql = "INSERT INTO users(email, full_name, tel, id_card, address, role_id) VALUES (?, ?, ?, ?, ?, ?)";
+            connection = getConnection();
+            pstmt = connection.prepareStatement(sql);
+            pstmt.setString(1, email);
+            pstmt.setString(2, name);
+            pstmt.setString(3, tel);
+            pstmt.setString(4, id);
+            pstmt.setString(5, address);
+            pstmt.setInt(6, 3);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
@@ -182,6 +201,26 @@ public class UserDAL {
             System.out.println("VendorError: " + e.getErrorCode());
         }
         return result;
+    }
+
+    public static int selectLastUser() {
+        // int result = 0;
+        try {
+            String sql = "SELECT user_id FROM users ORDER BY user_id DESC LIMIT 1";
+            connection = getConnection();
+            pstmt = connection.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                last_id = rs.getInt("user_id");
+            } else {
+                System.out.println("\n Cannot get user id !!!\n");
+            }
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        }
+        return last_id;
     }
 
     public static boolean checkEmail(String email) {

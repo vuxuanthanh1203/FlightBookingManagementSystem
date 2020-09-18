@@ -13,6 +13,10 @@ public class BookingBL {
         bDal.viewBooking(userID);
     }
 
+    public void viewBookingGuest(String email) {
+        bDal.viewBookingGuest(email);
+    }
+
     public void viewAllBooking() {
         bDal.viewAllBooking();
     }
@@ -27,5 +31,9 @@ public class BookingBL {
 
     public void cancelBooking(int bookingID) {
         bDal.cancelBooking(bookingID);
+    }
+
+    public void bookingGuest(int quantity, String bookingDate, double totalCost, int userID, int flightID) {
+        bDal.bookingGuest(quantity, bookingDate, totalCost, userID, flightID);
     }
 }

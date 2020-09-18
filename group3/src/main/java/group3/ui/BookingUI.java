@@ -3,16 +3,20 @@ package group3.ui;
 import java.util.Scanner;
 
 import group3.bl.BookingBL;
-// import group3.bl.FlightBL;
 import group3.dal.BookingDAL;
 import group3.dal.FlightDAL;
 import group3.dal.UserDAL;
 import group3.persistance.Booking;
 import group3.persistance.ClearScreen;
+import group3.persistance.User;
 
 public class BookingUI {
-    static int adult;
-    static int children;
+    private static int adult;
+    private static int children;
+    private static String name;
+    private static String tel;
+    private static String id;
+    private static String address;
     int route = 0;
     String flightDate = "";
     private String email;
@@ -54,11 +58,26 @@ public class BookingUI {
                         case "y":
                             ClearScreen.clear();
                             if (!UserDAL.isLogin) {
-                                Header.header();
-                                System.out.println("\n-- YOU NEED TO LOGIN TO USE THIS FUNCTION !!! --");
-                                System.out.print("\n- Enter to login !");
-                                getScanner().nextLine();
-                                UserUI.login(email, pass);
+                                UserUI.registerPreOder(email, name, tel, id, address);
+                                bookingSummary();
+                                System.out.print("\n- Confirm Booking (Y/N): ");
+                                String conf = getScanner().nextLine().toLowerCase();
+                                switch (conf) {
+                                    case "y":
+                                        FlightDAL.updateERemain(quantity, flightID);
+                                        bbl.bookingGuest(quantity, bookingDate, totalCost, userID, flightID);
+                                        break;
+                                    case "n":
+                                        ClearScreen.clear();
+                                        Header.header();
+                                        System.out.println("\n- No Reservation !");
+                                        System.out.println("\n-- Enter to Continue ! --\n");
+                                        getScanner().nextLine();
+                                        MenuUI.menu();
+                                        break;
+                                    default:
+                                        break;
+                                }
                             } else {
                                 FlightDAL.updateERemain(quantity, flightID);
                                 bbl.booking(quantity, bookingDate, totalCost, userID, flightID);
@@ -99,11 +118,26 @@ public class BookingUI {
                         case "y":
                             ClearScreen.clear();
                             if (!UserDAL.isLogin) {
-                                Header.header();
-                                System.out.println("-- YOU NEED TO LOGIN TO USE THIS FUNCTION !!! --\n");
-                                System.out.print("\n- Enter to login !");
-                                getScanner().nextLine();
-                                UserUI.login(email, pass);
+                                UserUI.registerPreOder(email, name, tel, id, address);
+                                bookingSummary();
+                                System.out.print("\n- Confirm Booking (Y/N): ");
+                                String conf = getScanner().nextLine().toLowerCase();
+                                switch (conf) {
+                                    case "y":
+                                        FlightDAL.updatePRemain(quantity, flightID);
+                                        bbl.bookingGuest(quantity, bookingDate, totalCost, userID, flightID);
+                                        break;
+                                    case "n":
+                                        ClearScreen.clear();
+                                        Header.header();
+                                        System.out.println("\n- No Reservation !");
+                                        System.out.println("\n-- Enter to Continue ! --\n");
+                                        getScanner().nextLine();
+                                        MenuUI.menu();
+                                        break;
+                                    default:
+                                        break;
+                                }
                             } else {
                                 FlightDAL.updatePRemain(quantity, flightID);
                                 bbl.booking(quantity, bookingDate, totalCost, userID, flightID);
@@ -144,11 +178,26 @@ public class BookingUI {
                         case "y":
                             ClearScreen.clear();
                             if (!UserDAL.isLogin) {
-                                Header.header();
-                                System.out.println("-- YOU NEED TO LOGIN TO USE THIS FUNCTION !!! --\n");
-                                System.out.print("\n- Enter to login !");
-                                getScanner().nextLine();
-                                UserUI.login(email, pass);
+                                UserUI.registerPreOder(email, name, tel, id, address);
+                                bookingSummary();
+                                System.out.print("\n- Confirm Booking (Y/N): ");
+                                String conf = getScanner().nextLine().toLowerCase();
+                                switch (conf) {
+                                    case "y":
+                                        FlightDAL.updateBRemain(quantity, flightID);
+                                        bbl.bookingGuest(quantity, bookingDate, totalCost, userID, flightID);
+                                        break;
+                                    case "n":
+                                        ClearScreen.clear();
+                                        Header.header();
+                                        System.out.println("\n- No Reservation !");
+                                        System.out.println("\n-- Enter to Continue ! --\n");
+                                        getScanner().nextLine();
+                                        MenuUI.menu();
+                                        break;
+                                    default:
+                                        break;
+                                }
                             } else {
                                 FlightDAL.updateBRemain(quantity, flightID);
                                 bbl.booking(quantity, bookingDate, totalCost, userID, flightID);
@@ -187,6 +236,37 @@ public class BookingUI {
         System.out.println(
                 "======================================================================================================================");
         bbl.viewBooking(userID);
+        System.out.println(
+                "-----------------------------------------------------------------------------------------------------------------------");
+        System.out.print("\n- Enter to be back !");
+        getScanner().nextLine();
+        ClearScreen.clear();
+        MenuUI.manageBooking();
+    }
+
+    public static String searchBookingGuest(String email) {
+        ClearScreen.clear();
+        Header.header();
+
+        System.out.println("\n=====================================================================");
+        System.out.println("|                             SEARCH BOOKING                        |");
+        System.out.println("+-------------------------------------------------------------------+");
+        System.out.println("\n(0: Back)");
+        email = User.getEmail(email);
+        return email;
+    }
+
+    public void viewBookingGuest(String email) {
+        searchBookingGuest(email);
+        ClearScreen.clear();
+        Header.header();
+        System.out.println(
+                "\n======================================================================================================================");
+        System.out.println(
+                "|                                                  BOOKING DETAILS                                                   |");
+        System.out.println(
+                "======================================================================================================================");
+        bbl.viewBookingGuest(email);
         System.out.println(
                 "-----------------------------------------------------------------------------------------------------------------------");
         System.out.print("\n- Enter to be back !");

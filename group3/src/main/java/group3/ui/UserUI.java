@@ -53,6 +53,26 @@ public class UserUI {
         }
     }
 
+    public static void registerPreOder(String email, String name, String tel, String id, String address) {
+        ClearScreen.clear();
+        Header.header();
+        System.out.println("=====================================================================");
+        System.out.println("|                            INPUT YOUR INFO                        |");
+        System.out.println("+-------------------------------------------------------------------+");
+        email = User.checkEmail(email);
+        name = User.getName(name);
+        tel = User.getTel(tel);
+        id = User.getID(id);
+        address = User.getAddress(address);
+
+        ubl.registerPreOrder(email, name, tel, id, address);
+        System.out.println("\n\n- Sign Up Success !");
+        System.out.println("\n- You need to login to use the next function !");
+        System.out.println("\n=====================================================================");
+        System.out.print("\n- Enter to Continue !");
+        getScanner().nextLine();
+    }
+
     public void modifyAccount(String email, String name, String tel, String address) {
         // ClearScreen.clear();
         selectAccount(email);

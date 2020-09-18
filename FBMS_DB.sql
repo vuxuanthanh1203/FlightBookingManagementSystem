@@ -20,16 +20,6 @@ CREATE TABLE users(
     FOREIGN KEY(role_id) REFERENCES roles(role_id)
 );
 
--- CREATE TABLE guests(
--- 	guest_id INT AUTO_INCREMENT,
---     email VARCHAR(255) NOT NULL,
---     full_name VARCHAR(255) NOT NULL,
---     tel VARCHAR(10) NOT NULL,
---     id_card VARCHAR(9) NOT NULL,
---     address VARCHAR(255) NOT NULL,
---     PRIMARY KEY(guest_id)
--- );
-
 CREATE TABLE locations(
 	loc_code VARCHAR(5) NOT NULL,
     loc_name VARCHAR(255) NOT NULL,
@@ -94,12 +84,10 @@ CREATE TABLE bookings(
     total_cost DOUBLE NOT NULL,
     flight_id INT NOT NULL,
     user_id INT NOT NULL,
-    -- guest_id INT ,
     b_status VARCHAR(255) DEFAULT('Complete'),
     PRIMARY KEY(booking_id),
     FOREIGN KEY (flight_id) REFERENCES flights(flight_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
-    -- FOREIGN KEY (guest_id) REFERENCES guests(guest_id)
 );
 
 INSERT INTO roles VALUES
@@ -261,18 +249,18 @@ DELIMITER ;
 
 -- SELECT * FROM view_all_booking;
 
-UPDATE flights SET flight_date = '2020/09/20', departure_time = '05:00:00', arrival_time = '07:10:00' WHERE flight_id = 1;
 
-
-call display_flight(1);
+-- call display_flight(1);
 
 -- select * from bookings;
 
 
+-- SELECT user_id FROM users ORDER BY user_id DESC LIMIT 1;
+
 -- drop procedure display_flight;
 
 -- call search_flight(5, '2020/09/19');
-
+-- SELECT * FROM flights ORDER BY flight_id DESC LIMIT 1;
 
 -- DROP database flightbooking;
 -- select * from flights where flight_id = 1;

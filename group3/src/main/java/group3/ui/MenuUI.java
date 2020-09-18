@@ -118,7 +118,9 @@ public class MenuUI {
             System.out.println("|                                                                   |");
             System.out.println("| 2. Booking Flight                                                 |");
             System.out.println("|                                                                   |");
-            System.out.println("| 3. Exit                                                           |");
+            System.out.println("| 3. Manage Booking                                                 |");
+            System.out.println("|                                                                   |");
+            System.out.println("| 4. Exit                                                           |");
             System.out.println("|                                                                   |");
             System.out.println("+-------------------------------------------------------------------+\n");
 
@@ -134,6 +136,10 @@ public class MenuUI {
                     bookingUI.booking(quantity, bookingDate, totalCost, UserDAL.user_id, flightID);
                     break;
                 case 3:
+                    ClearScreen.clear();
+                    bookingUI.viewBookingGuest(email);
+                    break;
+                case 4:
                     ClearScreen.clear();
                     Header.header();
                     System.out.println("\n(^.^) Thanks for choosing us ! (^.^)\n");
