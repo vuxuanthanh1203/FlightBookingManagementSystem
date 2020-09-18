@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 import group3.bl.FlightBL;
 import group3.dal.BookingDAL;
-import group3.dal.FlightDAL;
 import group3.persistance.ClearScreen;
 import group3.persistance.Flight;
 
@@ -81,24 +80,55 @@ public class FlightUI {
 
         public void modifyFlight(int flightID, String flightDate, String departureTime, String arrivalTime) {
                 selectFlight(flightID);
-                System.out.println("\n=====================================================================");
-                System.out.println("|                            MODIFY FLIGHT                          |");
-                System.out.println("+-------------------------------------------------------------------+");
-                flightDate = Flight.getFlightDate(flightDate);
-                departureTime = Flight.getDeTime(departureTime);
-                arrivalTime = Flight.getArrTime(arrivalTime);
-                fbl.modifyFlight(flightID, flightDate, departureTime, arrivalTime);
+                System.out.print("\n- Confirm Modification (Y/N): ");
+                String choice = getScanner().nextLine().toLowerCase();
+                switch (choice) {
+                        case "y":
+                                System.out.println(
+                                                "\n=====================================================================");
+                                System.out.println(
+                                                "|                            MODIFY FLIGHT                          |");
+                                System.out.println(
+                                                "+-------------------------------------------------------------------+");
+                                flightDate = Flight.getFlightDate(flightDate);
+                                departureTime = Flight.getDeTime(departureTime);
+                                arrivalTime = Flight.getArrTime(arrivalTime);
+                                fbl.modifyFlight(flightID, flightDate, departureTime, arrivalTime);
+                                break;
+                        case "n":
+                                ClearScreen.clear();
+                                Header.header();
+                                System.out.println("\n-- Unsuccessful Modification !!! --");
+                                System.out.println("\n-- Enter To Be Back ! --");
+                                getScanner().nextLine();
+                                break;
+                        default:
+                                break;
+                }
+
         }
 
         public static void selectFlight(int flightID) {
                 ClearScreen.clear();
                 Header.header();
                 searchFlight(flightID);
-                System.out.println("=====================================================================");
-                System.out.println("|                           FLIGHT INFORMATION                      |");
-                System.out.println("+-------------------------------------------------------------------+");
+                System.out.println(
+                                "\n================================================================================================================================================");
+                System.out.println(
+                                "|                                                             FLIGHT INFORMATION                                                               |");
+                System.out.println(
+                                "================================================================================================================================================\n");
+                System.out.println(
+                                "================================================================================================================================================");
+                System.out.printf(
+                                "|| %2s | %14s %1s| %19s %1s| %18s %-1s | %13s %-1s | %12s %-1s| %16s %-2s| %13s %-1s||\n",
+                                "ID", "Flight Number", " ", "Departure Location", " ", "Arrival Location", " ",
+                                "Flight Date", " ", "Flight Time", " ", "Departure Time", " ", "Arrival Time", " ");
+                System.out.println(
+                                "================================================================================================================================================");
                 fbl.flightDetails(flight_id);
-                System.out.println("+-------------------------------------------------------------------+\n");
+                System.out.println(
+                                "------------------------------------------------------------------------------------------------------------------------------------------------");
         }
 
         public static int searchFlight(int flightID) {

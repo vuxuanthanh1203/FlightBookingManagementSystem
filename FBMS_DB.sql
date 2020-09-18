@@ -20,6 +20,16 @@ CREATE TABLE users(
     FOREIGN KEY(role_id) REFERENCES roles(role_id)
 );
 
+-- CREATE TABLE guests(
+-- 	guest_id INT AUTO_INCREMENT,
+--     email VARCHAR(255) NOT NULL,
+--     full_name VARCHAR(255) NOT NULL,
+--     tel VARCHAR(10) NOT NULL,
+--     id_card VARCHAR(9) NOT NULL,
+--     address VARCHAR(255) NOT NULL,
+--     PRIMARY KEY(guest_id)
+-- );
+
 CREATE TABLE locations(
 	loc_code VARCHAR(5) NOT NULL,
     loc_name VARCHAR(255) NOT NULL,
@@ -84,16 +94,18 @@ CREATE TABLE bookings(
     total_cost DOUBLE NOT NULL,
     flight_id INT NOT NULL,
     user_id INT NOT NULL,
+    -- guest_id INT ,
     b_status VARCHAR(255) DEFAULT('Complete'),
     PRIMARY KEY(booking_id),
     FOREIGN KEY (flight_id) REFERENCES flights(flight_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
+    -- FOREIGN KEY (guest_id) REFERENCES guests(guest_id)
 );
 
 INSERT INTO roles VALUES
 (null, 'admin'),
 (null, 'customer'),
-(null, 'passenger');
+(null, 'guest');
 
 INSERT INTO users VALUES
 (null, 'vxt@gmail.com', 'f942cf0d8c018a45e529eb0120c6605d', 'VU XUAN THANH', '0965301752', '152216442', 'QUYNH PHU, THAI BINH', 2),
@@ -252,7 +264,7 @@ DELIMITER ;
 
 call display_flight(1);
 
-select * from bookings;
+-- select * from bookings;
 
 
 -- drop procedure display_flight;
@@ -261,5 +273,5 @@ select * from bookings;
 
 
 -- DROP database flightbooking;
-select * from flights where flight_id = 25;
+-- select * from flights where flight_id = 25;
 -- SELECT email, pass FROM users WHERE email = 'vxt@gmail.com' AND pass = '1234';

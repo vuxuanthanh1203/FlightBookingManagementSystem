@@ -8,7 +8,7 @@ public class App {
 
     public static void main(String[] args) {
         // MenuUI.menu();
-        // AdminUI.manageFlight();
-        FlightDAL.flightDetails(1);
+        AdminUI.manageFlight();
+        // FlightDAL.flightDetails(1);
     }
 }
