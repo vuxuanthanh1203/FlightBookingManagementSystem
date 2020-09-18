@@ -10,6 +10,7 @@ import group3.persistance.ClearScreen;
 import group3.ui.Header;
 import group3.ui.MenuUI;
 // import group3.ui.UserUI;
+import group3.ui.UserUI;
 
 public class UserDAL {
     private static Connection connection = null;
@@ -77,7 +78,7 @@ public class UserDAL {
 
     public void modifyAccount(String email, String name, String tel, String address) {
         try {
-            System.out.println("\n- Confirm Modification (Y/N): ");
+            System.out.print("\n- Confirm Modification (Y/N): ");
             String choice = getScanner().nextLine().toLowerCase();
             switch (choice) {
                 case "y":
@@ -99,6 +100,7 @@ public class UserDAL {
                     break;
                 case "n":
                     ClearScreen.clear();
+                    System.out.println("\n-- Cancel Update ! --\n");
                     MenuUI.cusScreen();
                 default:
                     break;
@@ -117,24 +119,22 @@ public class UserDAL {
             pstmt = connection.prepareStatement(sql);
             rs = pstmt.executeQuery();
             if (rs.next()) {
-                // if (rs.getString("pass").equals(oldPass)) {
-                    String sql1 = "UPDATE users SET pass = ? WHERE email = '" + UserDAL.user_email + "'";
-                    connection = getConnection();
-                    pstmt = connection.prepareStatement(sql1);
-                    pstmt.setString(1, newPass);
-                    int k = pstmt.executeUpdate();
-                    if (k == 1) {
-                        ClearScreen.clear();
-                        System.out.println("\n-- Update Successful ! --\n");
-                        MenuUI.cusScreen();
-                    } else {
-                        System.out.println("\n-- Update Failed !!! --\n");
-                    }
-                // } 
-                // else {
-                //     ClearScreen.clear();
-                //     System.out.println("\n-- Incorrect Password !!! --\n");
-                // }
+                String sql1 = "UPDATE users SET pass = ? WHERE email = '" + UserDAL.user_email + "'";
+                connection = getConnection();
+                pstmt = connection.prepareStatement(sql1);
+                pstmt.setString(1, newPass);
+                int k = pstmt.executeUpdate();
+                if (k == 1) {
+                    ClearScreen.clear();
+                    Header.header();
+                    System.out.println("\n-- Update Successful ! --");
+                    System.out.println("\n-- Login Again To Continue ! --\n");
+                    System.out.print("\n-- Enter To Login ! --");
+                    getScanner().nextLine();
+                    UserUI.login(user_name, newPass);
+                } else {
+                    System.out.println("\n-- Update Failed !!! --\n");
+                }
             }
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());

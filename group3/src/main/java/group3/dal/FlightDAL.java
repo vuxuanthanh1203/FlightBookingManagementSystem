@@ -249,11 +249,10 @@ public class FlightDAL {
         try {
             System.out.println("\n- Confirm Modification (Y/N): ");
             String choice = getScanner().nextLine().toLowerCase();
-            System.out.println(flightID);
             switch (choice) {
                 case "y":
                     String sql = "UPDATE flights SET flight_date = ?, departure_time = ?, arrival_time = ? WHERE flight_id = '"
-                            + FlightDAL.flight_id + "'";
+                            + FlightUI.flight_id + "'";
                     connection = getConnection();
                     pstmt = connection.prepareStatement(sql);
                     pstmt.setString(1, flightDate);
@@ -266,12 +265,16 @@ public class FlightDAL {
                         System.out.println("\n-- Update Successfully ! --\n");
                         System.out.print("\n-- Enter To Continue ! --\n");
                         getScanner().nextLine();
+                        ClearScreen.clear();
+                        AdminUI.manageFlight();
                     } else {
                         ClearScreen.clear();
                         Header.header();
                         System.out.println("\n-- Update Failed !!! --\n");
                         System.out.print("\n-- Enter To Continue ! --\n");
                         getScanner().nextLine();
+                        ClearScreen.clear();
+                        AdminUI.manageFlight();
                     }
                     break;
                 case "n":
@@ -281,8 +284,7 @@ public class FlightDAL {
                     System.out.print("\n-- Enter To Continue ! --");
                     getScanner().nextLine();
                     ClearScreen.clear();
-
-                    MenuUI.adminScreen();
+                    AdminUI.manageFlight();
                 default:
                     break;
             }
@@ -295,14 +297,12 @@ public class FlightDAL {
 
     public void flightDetails(int flightID) {
         try {
-
-            // String sql = "CALL display_flight('" + FlightUI.flight_id + "')";
             String sql = "CALL display_flight('" + flightID + "')";
             connection = getConnection();
             pstmt = connection.prepareStatement(sql);
             rs = pstmt.executeQuery();
             if (rs.next()) {
-                System.out.printf("\n %3d %15s %14s %14s %16s %24s %22s %23s \n", rs.getInt("flight_id"),
+                System.out.printf("\n %4d %13s %17s %22s %24s %15s %17s %18s \n", rs.getInt("flight_id"),
                         rs.getString("flight_num"), rs.getString("departure_loc"), rs.getString("arrival_loc"),
                         rs.getString("flight_date"), rs.getString("flight_time"), rs.getString("departure_time"),
                         rs.getString("arrival_time"));

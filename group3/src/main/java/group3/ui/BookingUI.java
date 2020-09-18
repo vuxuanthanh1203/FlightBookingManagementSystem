@@ -192,7 +192,7 @@ public class BookingUI {
         System.out.print("\n- Enter to be back !");
         getScanner().nextLine();
         ClearScreen.clear();
-        MenuUI.cusScreen();
+        MenuUI.manageBooking();
     }
 
     public void viewAllBooking() {
@@ -250,27 +250,37 @@ public class BookingUI {
                 "|                                                   CANCEL BOOKING                                                   |");
         System.out.println(
                 "======================================================================================================================");
+        System.out.println("\n(0: Back)");
         System.out.print("\n- Enter Booking ID: ");
         bookingID = getScanner().nextInt();
-        selectBooking(bookingID, UserDAL.user_id);
-        System.out.println("\n- Do You Really Want To Delete The Reservation ? (Y/N)");
-        String choice = getScanner().nextLine().toLowerCase();
-        switch (choice) {
-            case "y":
-                ClearScreen.clear();
-                bbl.cancelBooking(bookingID);
-                break;
-            case "n":
-                ClearScreen.clear();
-                System.out.println("\n- No Cancel !");
-                MenuUI.cusScreen();
-                break;
-            default:
-                ClearScreen.clear();
-                System.out.println("\n-- Function does not exist ! --\n");
-                MenuUI.manageBooking();
-                break;
+        if (bookingID == 0) {
+            ClearScreen.clear();
+            MenuUI.manageBooking();
+        } else {
+            selectBooking(bookingID, UserDAL.user_id);
+            System.out.println("\n- Do You Really Want To Delete The Reservation ? (Y/N)");
+            String choice = getScanner().nextLine().toLowerCase();
+            switch (choice) {
+                case "y":
+                    ClearScreen.clear();
+                    bbl.cancelBooking(bookingID);
+                    break;
+                case "n":
+                    ClearScreen.clear();
+                    Header.header();
+                    System.out.println("\n- No Cancel !");
+                    System.out.print("\n- Enter To Be Back !");
+                    getScanner().nextLine();
+                    MenuUI.manageBooking();
+                    break;
+                default:
+                    ClearScreen.clear();
+                    System.out.println("\n-- Function does not exist ! --\n");
+                    MenuUI.manageBooking();
+                    break;
+            }
         }
+
     }
 
     public void cancelABooking(int bookingID) {

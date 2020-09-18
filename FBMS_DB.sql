@@ -261,6 +261,8 @@ DELIMITER ;
 
 -- SELECT * FROM view_all_booking;
 
+UPDATE flights SET flight_date = '2020/09/20', departure_time = '05:00:00', arrival_time = '07:10:00' WHERE flight_id = 1;
+
 
 call display_flight(1);
 
@@ -273,5 +275,5 @@ call display_flight(1);
 
 
 -- DROP database flightbooking;
--- select * from flights where flight_id = 25;
+-- select * from flights where flight_id = 1;
 -- SELECT email, pass FROM users WHERE email = 'vxt@gmail.com' AND pass = '1234';

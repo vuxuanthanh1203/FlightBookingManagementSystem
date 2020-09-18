@@ -3,6 +3,7 @@ package group3.persistance;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+import group3.ui.MenuUI;
 import group3.ui.UserUI;
 
 public class Flight {
@@ -124,11 +125,15 @@ public class Flight {
 
     public static String getFNum(String flightNum) {
         while (true) {
+            System.out.println("\n  (Input 'back' to Back)");
             System.out.print("\n- Input Flight Number(VD: VN 111): ");
             flightNum = getScanner().nextLine().toUpperCase();
             if (flightNum.isEmpty()) {
                 UserUI.fieldBlank("|              -- Flight number is not blank --       |");
                 continue;
+            } else if (flightNum.equalsIgnoreCase("back")) {
+                ClearScreen.clear();
+                MenuUI.adminScreen();
             } else if (!isFNumValid(flightNum)) {
                 System.out.println("\n- Invalid Flight Number !");
                 continue;

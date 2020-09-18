@@ -54,7 +54,7 @@ public class BookingDAL {
     }
 
     public static String setEPrice(int quantity) {
-        
+
         try {
             String sql = "SELECT * FROM fares";
             connection = getConnection();
@@ -118,7 +118,7 @@ public class BookingDAL {
             connection = getConnection();
             pstmt = connection.prepareStatement(sql);
             rs = pstmt.executeQuery();
-            while (rs.next()) {
+            if (rs.next()) {
                 System.out.print("\n- Booking ID: " + rs.getInt("booking_id"));
                 System.out.println("\t\t\t\t\t\t\t\t- Flight Number: " + rs.getString("flight_num"));
                 System.out.print("\n- Flight Time: " + rs.getString("flight_time"));
@@ -132,6 +132,8 @@ public class BookingDAL {
                 System.out.print("  - Arrival Location: " + rs.getString("arrival_loc"));
                 System.out.println("\t\t\t- Status: " + rs.getString("b_status") + "\n");
                 line();
+            } else {
+                System.out.println("\n-- No matching results --\n");
             }
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
@@ -254,8 +256,15 @@ public class BookingDAL {
             int k = pstmt.executeUpdate();
             if (k == 1) {
                 Header.header();
-                System.out.println("-- Delete Complete ! --");
+                System.out.println("\n-- Delete Complete ! --");
+                System.out.println("\n-- Enter To Be Back ! --");
+                getScanner().nextLine();
+                MenuUI.adminManageBooking();
             } else {
+                Header.header();
+                System.out.println("\n-- Enter To Be Back ! --");
+                getScanner().nextLine();
+                MenuUI.adminManageBooking();
                 System.out.println("-- Delete Failed !!! --");
             }
         } catch (SQLException e) {

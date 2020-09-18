@@ -45,14 +45,20 @@ public class FlightUI {
                 System.out.println("| 4. TP.Ho Chi Minh --> Da Nang                                     |");
                 System.out.println("| 5. Da Nang --> Ha Noi                                             |");
                 System.out.println("| 6. Da Nang --> TP.Ho Chi Minh                                     |");
+                System.out.println("| 0. Back                                                           |");
                 System.out.println("+-------------------------------------------------------------------+");
 
                 System.out.print("\n- Choose The Schedule: ");
                 route = getScanner().nextInt();
-                BookingDAL.selectRoute(route);
-                System.out.print("\n- Departure Date (yyyy/MM/dd): ");
-                date = Flight.getDate(date);
-                displayFlight();
+                if (route == 0) {
+                        ClearScreen.clear();
+                        MenuUI.cusScreen();
+                } else {
+                        BookingDAL.selectRoute(route);
+                        System.out.print("\n- Departure Date (yyyy/MM/dd): ");
+                        date = Flight.getDate(date);
+                        displayFlight();
+                }
 
         }
 
@@ -101,6 +107,8 @@ public class FlightUI {
                                 System.out.println("\n-- Unsuccessful Modification !!! --");
                                 System.out.println("\n-- Enter To Be Back ! --");
                                 getScanner().nextLine();
+                                ClearScreen.clear();
+                                AdminUI.manageFlight();
                                 break;
                         default:
                                 break;

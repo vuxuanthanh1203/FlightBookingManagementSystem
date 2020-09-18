@@ -120,6 +120,24 @@ public class User {
         return pass;
     }
 
+    public static String checkPass(String pass) {
+        while (true) {
+            pass = getMd5(PasswordField.readPassword(""));
+            if (pass.isEmpty()) {
+                UserUI.fieldBlank("|              -- Password is not blank --            |");
+                continue;
+            } else if (!isPassValid(pass)) {
+                UserUI.formPass();
+                continue;
+            } else if (pass.equals("cfcd208495d565ef66e7dff9f98764da") ) {
+                ClearScreen.clear();
+                MenuUI.cusScreen();
+            }
+            break;
+        }
+        return pass;
+    }
+
     public static String getName(String name) {
         while (true) {
             System.out.print("\n- Input your full name: ");
@@ -127,6 +145,9 @@ public class User {
             if (name.isEmpty()) {
                 UserUI.fieldBlank("|                  -- Name is not blank --            |");
                 continue;
+            } else if (name.equalsIgnoreCase("back")) {
+                ClearScreen.clear();
+                MenuUI.cusScreen();
             }
             break;
         }

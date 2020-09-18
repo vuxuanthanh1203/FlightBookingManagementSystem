@@ -59,6 +59,7 @@ public class UserUI {
         System.out.println("\n=====================================================================");
         System.out.println("|                            MODIFY ACCOUNT                         |");
         System.out.println("+-------------------------------------------------------------------+");
+        System.out.println("\n(Input 'back' to Back)");
         name = User.getName(name);
         tel = User.getTel(tel);
         address = User.getAddress(address);
@@ -81,8 +82,9 @@ public class UserUI {
         System.out.println("\n=====================================================================");
         System.out.println("|                            CHANGE PASSWORD                        |");
         System.out.println("+-------------------------------------------------------------------+");
+        System.out.println("\n(0: Back)");
         System.out.print("\n- Input your password: ");
-        oldPass = User.getPass(oldPass);
+        oldPass = User.checkPass(oldPass);
         if (!UserDAL.checkPass(oldPass)) {
             ClearScreen.clear();
             System.out.println("\n(!) Incorrect Password !");
