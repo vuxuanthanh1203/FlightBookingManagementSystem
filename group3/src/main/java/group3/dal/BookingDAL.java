@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.Scanner;
 
 import group3.persistance.ClearScreen;
+import group3.ui.BookingUI;
 import group3.ui.Header;
 import group3.ui.MenuUI;
 
@@ -22,6 +23,7 @@ public class BookingDAL {
     public static String arrival = "";
     public static double total = 0;
     public static String result = "";
+    public static int count = 0;
 
     private static Connection getConnection() throws SQLException {
         Connection conn = DbUtil.getInstance().getConnection();
@@ -177,13 +179,14 @@ public class BookingDAL {
         }
     }
 
-    public void viewBookingGuest(String email) {
+    public int viewBookingGuest(String email) {
         try {
-            String sql = "CALL view_booking_guest('" + email + "')";
+            String sql = "CALL view_booking_guest('" + BookingUI.guest_email + "')";
             connection = getConnection();
             pstmt = connection.prepareStatement(sql);
             rs = pstmt.executeQuery();
-            if (rs.next()) {
+            if (rs.next()) { 
+                count ++;
                 System.out.print("\n- Booking ID: " + rs.getInt("booking_id"));
                 System.out.println("\t\t\t\t\t\t\t\t- Flight Number: " + rs.getString("flight_num"));
                 System.out.print("\n- Flight Time: " + rs.getString("flight_time"));
@@ -205,6 +208,7 @@ public class BookingDAL {
             System.out.println("SQLState: " + e.getSQLState());
             System.out.println("VendorError: " + e.getErrorCode());
         }
+        return count;
     }
 
     public void viewAllBooking() {
@@ -326,11 +330,38 @@ public class BookingDAL {
                 getScanner().nextLine();
                 MenuUI.adminManageBooking();
             } else {
+                ClearScreen.clear();
                 Header.header();
+                System.out.println("-- Delete Failed !!! --");
                 System.out.println("\n-- Enter To Be Back ! --");
                 getScanner().nextLine();
                 MenuUI.adminManageBooking();
+            }
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        }
+    }
+
+    public void cancelBookingGuest(int bookingID) {
+        try {
+            String sql = "DELETE FROM bookings WHERE booking_id = '" + bookingID + "'";
+            connection = getConnection();
+            pstmt = connection.prepareStatement(sql);
+            int k = pstmt.executeUpdate();
+            if (k == 1) {
+                ClearScreen.clear();
+                Header.header();
+                System.out.println("\n-- Delete Complete ! --");
+                System.out.println("\n-- Enter To Be Back ! --");
+                getScanner().nextLine();
+            } else {
+                ClearScreen.clear();
+                Header.header();
                 System.out.println("-- Delete Failed !!! --");
+                System.out.println("\n-- Enter To Be Back ! --");
+                getScanner().nextLine();
             }
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
@@ -359,7 +390,6 @@ public class BookingDAL {
             System.out.println("VendorError: " + e.getErrorCode());
         }
     }
-    
 
     public void line() {
         System.out.println(

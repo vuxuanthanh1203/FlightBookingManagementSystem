@@ -17,10 +17,11 @@ public class BookingUI {
     private static String tel;
     private static String id;
     private static String address;
+    public static String guest_email;
     int route = 0;
     String flightDate = "";
     private String email;
-    private String pass;
+    // private String pass;
     private static String type = "";
     private static String total;
 
@@ -244,7 +245,7 @@ public class BookingUI {
         MenuUI.manageBooking();
     }
 
-    public static String searchBookingGuest(String email) {
+    public static void searchBookingGuest(String email) {
         ClearScreen.clear();
         Header.header();
 
@@ -252,8 +253,7 @@ public class BookingUI {
         System.out.println("|                             SEARCH BOOKING                        |");
         System.out.println("+-------------------------------------------------------------------+");
         System.out.println("\n(0: Back)");
-        email = User.getEmail(email);
-        return email;
+        guest_email = User.getEmail(email);
     }
 
     public void viewBookingGuest(String email) {
@@ -269,8 +269,31 @@ public class BookingUI {
         bbl.viewBookingGuest(email);
         System.out.println(
                 "-----------------------------------------------------------------------------------------------------------------------");
-        System.out.print("\n- Enter to be back !");
-        getScanner().nextLine();
+        System.out.println("\n 1 - Cancel / 2 - Back ");
+        System.out.print("\n- Input your choose: ");
+        int choose = getScanner().nextInt();
+
+        switch (choose) {
+            case 1:
+                if (BookingDAL.count == 0) {
+                    ClearScreen.clear();
+                    Header.header();
+                    System.out.println("\n- You Don't Have Booking !!!");
+                    System.out.println("\n- Enter To Continue ! -");
+                    getScanner().nextLine();
+                    MenuUI.menu();
+                } else {
+                    System.out.print("\n- Input The Booking ID: ");
+                    int booking_ID = getScanner().nextInt();
+                    bbl.cancelBookingGuest(booking_ID);
+                    MenuUI.menu();
+                }
+                break;
+            case 2:
+                MenuUI.menu();
+            default:
+                break;
+        }
         ClearScreen.clear();
         MenuUI.manageBooking();
     }

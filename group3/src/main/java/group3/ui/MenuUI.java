@@ -169,7 +169,6 @@ public class MenuUI {
 
             System.out.print("Choice your action: ");
             choice = getScanner().nextInt();
-            // AdminUI adminUI = new AdminUI();
             switch (choice) {
                 case 1:
                     AdminUI.manageFlight();

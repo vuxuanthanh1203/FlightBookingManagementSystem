@@ -33,6 +33,10 @@ public class BookingBL {
         bDal.cancelBooking(bookingID);
     }
 
+    public void cancelBookingGuest(int bookingID) {
+        bDal.cancelBookingGuest(bookingID);
+    }
+
     public void bookingGuest(int quantity, String bookingDate, double totalCost, int userID, int flightID) {
         bDal.bookingGuest(quantity, bookingDate, totalCost, userID, flightID);
     }
