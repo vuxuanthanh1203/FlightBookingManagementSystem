@@ -47,6 +47,41 @@ public class Flight {
         this.flightDate = flightDate;
     }
 
+    public static String start(String start) {
+        String start_point = start;
+        return start_point;
+    }
+
+    public static String destination(String des) {
+        String destination = des;
+        return destination;
+    }
+
+    public static String flightNo(String f_no) {
+        String flightNo = f_no;
+        return flightNo;
+    }
+
+    public static String flightDate(String f_date) {
+        String flightDate = f_date;
+        return flightDate;
+    }
+
+    public static String flightTime(String f_time) {
+        String flightTime = f_time;
+        return flightTime;
+    }
+
+    public static String takeOff(String t_time) {
+        String takeOff = t_time;
+        return takeOff;
+    }
+
+    public static String landing(String l_time) {
+        String landing = l_time;
+        return landing;
+    }
+
     public static String getDate(String Date) {
         while (true) {
             Date = getScanner().nextLine();

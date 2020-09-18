@@ -11,55 +11,60 @@ import group3.ui.MenuUI;
 import group3.ui.UserUI;
 
 public class User {
-    private String email = "";
+    private static String email = "";
     private static String pass = "";
     private static String name = "";
     private static String tel = "";
     private static String id_card = "";
     private static String address = "";
 
-    public String getEmail() {
-        return email;
+    public static String getEmails(String email) {
+        String user_email = email;
+        return user_email;
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        User.email = email;
     }
 
-    public String getPass() {
-        return pass;
+    public static String getPassword(String pass) {
+        String user_pass = pass;
+        return user_pass;
     }
 
     public void setPass(String pass) {
         User.pass = pass;
     }
-
-    public String getName() {
-        return name;
+    public static String getNames(String name) {
+        String user_name = name;
+        return user_name;
     }
 
     public void setName(String name) {
         User.name = name;
     }
 
-    public String getTel() {
-        return tel;
+    public static String getTels(String tel) {
+        String user_tel = tel;
+        return user_tel;
     }
 
     public void setTel(String tel) {
         User.tel = tel;
     }
 
-    public String getId_card() {
-        return id_card;
+    public static String getId_card(String id_card) {
+        String user_id_card = id_card;
+        return user_id_card;
     }
 
     public void setId_card(String id_card) {
         User.id_card = id_card;
     }
 
-    public String getAddress() {
-        return address;
+    public static String getAdd(String address) {
+        String user_address = address;
+        return user_address;
     }
 
     public void setAddress(String address) {
