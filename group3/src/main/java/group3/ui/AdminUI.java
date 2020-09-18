@@ -2,18 +2,34 @@ package group3.ui;
 
 import java.util.Scanner;
 
-public class AdminUI {
+import group3.dal.FlightDAL;
+import group3.persistance.ClearScreen;
 
-    public void manageFlight() {
+public class AdminUI {
+    static String flight_num = "";
+    static int flightID = 0;
+    static int route = 0;
+    static int fleet = 0;
+    static int fare = 0;
+    static String flightDate = "";
+    static String flightTime = "";
+    static String departureTime = "";
+    static String arrivalTime = "";
+
+    static FlightUI flightUI = new FlightUI();
+
+    public static void manageFlight() {
         int choice = 0;
         while (true) {
+            ClearScreen.clear();
+            Header.header();
             System.out.println("\n=====================================================================");
             System.out.println("|                             MANAGE FLIGHT                         |");
             System.out.println("+-------------------------------------------------------------------+");
             System.out.println("|                                                                   |");
             System.out.println("| 1. Add New Flight                                                 |");
             System.out.println("|                                                                   |");
-            System.out.println("| 2. Update Flight                                                  |");
+            System.out.println("| 2. Modify Flight                                                  |");
             System.out.println("|                                                                   |");
             System.out.println("| 3. Back                                                           |");
             System.out.println("|                                                                   |");
@@ -23,13 +39,15 @@ public class AdminUI {
             choice = getScanner().nextInt();
             switch (choice) {
                 case 1:
-                    // fbl.addFlight(flight);
+                    flightUI.addFlight(flight_num, route, fleet, fare, flightDate, flightTime, departureTime,
+                            arrivalTime);
                     break;
                 case 2:
-                    // fbl.updateFlight(flight);
+                    flightUI.modifyFlight(FlightDAL.flight_id, flightDate, departureTime, arrivalTime);
                     break;
                 case 3:
-                    System.out.println("Back");
+                    ClearScreen.clear();
+                    MenuUI.adminScreen();
                     break;
                 default:
                     System.out.println("Function does not exist !");

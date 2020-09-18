@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import group3.bl.FlightBL;
 import group3.dal.BookingDAL;
+import group3.dal.FlightDAL;
 import group3.persistance.ClearScreen;
 import group3.persistance.Flight;
 
@@ -11,6 +12,7 @@ public class FlightUI {
         private static FlightBL fbl = new FlightBL();
         public static int route = 0;
         public static String date = "";
+        public static int flight_id = 0;
 
         public static void displayFlight() {
                 ClearScreen.clear();
@@ -57,5 +59,56 @@ public class FlightUI {
 
         public static Scanner getScanner() {
                 return new Scanner(System.in);
+        }
+
+        public void addFlight(String flight_num, int route, int fleet, int fare, String flightDate, String flightTime,
+                        String departureTime, String arrivalTime) {
+                ClearScreen.clear();
+                Header.header();
+                System.out.println("=====================================================================");
+                System.out.println("|                             ADD NEW FLIGHT                        |");
+                System.out.println("+-------------------------------------------------------------------+");
+                flight_num = Flight.getFNum(flight_num);
+                route = Flight.getRoute(route);
+                fleet = Flight.getFleet(fleet);
+                fare = Flight.getFare(fare);
+                flightDate = Flight.getFlightDate(flightDate);
+                flightTime = Flight.getFlightTime(flightTime);
+                departureTime = Flight.getDeTime(departureTime);
+                arrivalTime = Flight.getArrTime(arrivalTime);
+                fbl.addFlight(flight_num, route, fleet, fare, flightDate, flightTime, departureTime, arrivalTime);
+        }
+
+        public void modifyFlight(int flightID, String flightDate, String departureTime, String arrivalTime) {
+                selectFlight(flightID);
+                System.out.println("\n=====================================================================");
+                System.out.println("|                            MODIFY FLIGHT                          |");
+                System.out.println("+-------------------------------------------------------------------+");
+                flightDate = Flight.getFlightDate(flightDate);
+                departureTime = Flight.getDeTime(departureTime);
+                arrivalTime = Flight.getArrTime(arrivalTime);
+                fbl.modifyFlight(flightID, flightDate, departureTime, arrivalTime);
+        }
+
+        public static void selectFlight(int flightID) {
+                ClearScreen.clear();
+                Header.header();
+                searchFlight(flightID);
+                System.out.println("=====================================================================");
+                System.out.println("|                           FLIGHT INFORMATION                      |");
+                System.out.println("+-------------------------------------------------------------------+");
+                fbl.flightDetails(flight_id);
+                System.out.println("+-------------------------------------------------------------------+\n");
+        }
+
+        public static int searchFlight(int flightID) {
+                ClearScreen.clear();
+                Header.header();
+                System.out.println("=====================================================================");
+                System.out.println("|                             SEARCH FLIGHT                         |");
+                System.out.println("+-------------------------------------------------------------------+");
+                System.out.print("\n- Input the Flight ID: ");
+                flight_id = getScanner().nextInt();
+                return flight_id;
         }
 }

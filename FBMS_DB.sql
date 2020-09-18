@@ -207,6 +207,16 @@ END //
 DELIMITER ;
 
 DELIMITER //
+CREATE PROCEDURE view_all_booking ()
+BEGIN
+SELECT b.booking_id, f.flight_num, f.flight_date, f.flight_time, r.departure_loc, r.arrival_loc, f.departure_time, f.arrival_time, u.full_name, b.booking_date, b.quantity, b.total_cost, u.address, b.b_status
+FROM flights AS f INNER JOIN bookings AS b ON f.flight_id = b.flight_id
+INNER JOIN routes AS r ON f.route_id = r.route_id
+INNER JOIN users AS u ON b.user_id = u.user_id;
+END //
+DELIMITER ;
+
+DELIMITER //
 CREATE PROCEDURE select_booking (IN cus_key INT, IN booking_id INT)
 BEGIN
 SELECT b.booking_id, f.flight_num, f.flight_date, f.flight_time, r.departure_loc, r.arrival_loc, f.departure_time, f.arrival_time, u.full_name, b.booking_date, b.quantity, b.total_cost, u.address, b.b_status
@@ -217,20 +227,39 @@ WHERE u.user_id = cus_key AND b.booking_id = booking_id;
 END //
 DELIMITER ;
 
--- call view_booking(1);
+DELIMITER //
+CREATE PROCEDURE select_a_booking (IN booking_id INT)
+BEGIN
+SELECT b.booking_id, f.flight_num, f.flight_date, f.flight_time, r.departure_loc, r.arrival_loc, f.departure_time, f.arrival_time, u.full_name, b.booking_date, b.quantity, b.total_cost, u.address, b.b_status
+FROM flights AS f INNER JOIN bookings AS b ON f.flight_id = b.flight_id
+INNER JOIN routes AS r ON f.route_id = r.route_id
+INNER JOIN users AS u ON b.user_id = u.user_id
+WHERE b.booking_id = booking_id;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE display_flight (IN flight_id INT)
+BEGIN
+SELECT f.flight_id, f.flight_num, f.flight_date, f.flight_time, r.departure_loc, r.arrival_loc, f.departure_time, f.arrival_time
+FROM flights AS f INNER JOIN routes AS r ON f.route_id = r.route_id
+WHERE f.flight_id = flight_id;
+END //
+DELIMITER ;
+
+-- SELECT * FROM view_all_booking;
 
 
--- call display_fare(1);
+call display_flight(1);
 
--- select * from bookings;
+select * from bookings;
 
 
--- drop procedure view_ticket;
+-- drop procedure display_flight;
 
 -- call search_flight(5, '2020/09/19');
 
 
 -- DROP database flightbooking;
-
--- select * from flights;
+select * from flights where flight_id = 25;
 -- SELECT email, pass FROM users WHERE email = 'vxt@gmail.com' AND pass = '1234';

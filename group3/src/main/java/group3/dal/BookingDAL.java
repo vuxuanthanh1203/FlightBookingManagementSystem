@@ -119,7 +119,35 @@ public class BookingDAL {
             pstmt = connection.prepareStatement(sql);
             rs = pstmt.executeQuery();
             while (rs.next()) {
-                System.out.print("\n- Ticket ID: " + rs.getInt("booking_id"));
+                System.out.print("\n- Booking ID: " + rs.getInt("booking_id"));
+                System.out.println("\t\t\t\t\t\t\t\t- Flight Number: " + rs.getString("flight_num"));
+                System.out.print("\n- Flight Time: " + rs.getString("flight_time"));
+                System.out.println("\t\t\t\t\t\t\t- Full Name: " + rs.getString("full_name"));
+                System.out.print("\n- Departure Time: " + rs.getString("departure_time"));
+                System.out.print("  - Arrival Time: " + rs.getString("arrival_time"));
+                System.out.println("\t\t\t- Address: " + rs.getString("address"));
+                System.out.print("\n- Flight Date: " + rs.getString("flight_date"));
+                System.out.println("\t\t\t\t\t\t- Quantity: " + rs.getInt("quantity"));
+                System.out.print("\n- Departure Location: " + rs.getString("departure_loc"));
+                System.out.print("  - Arrival Location: " + rs.getString("arrival_loc"));
+                System.out.println("\t\t\t- Status: " + rs.getString("b_status") + "\n");
+                line();
+            }
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        }
+    }
+
+    public void viewAllBooking() {
+        try {
+            String sql = "CALL view_all_booking()";
+            connection = getConnection();
+            pstmt = connection.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                System.out.print("\n- Booking ID: " + rs.getInt("booking_id"));
                 System.out.println("\t\t\t\t\t\t\t\t- Flight Number: " + rs.getString("flight_num"));
                 System.out.print("\n- Flight Time: " + rs.getString("flight_time"));
                 System.out.println("\t\t\t\t\t\t\t- Full Name: " + rs.getString("full_name"));
@@ -150,7 +178,46 @@ public class BookingDAL {
             while (rs.next()) {
                 booking = rs.getInt("booking_id");
 
-                System.out.print("\n- Ticket ID: " + rs.getInt("booking_id"));
+                System.out.print("\n- Booking ID: " + rs.getInt("booking_id"));
+                System.out.println("\t\t\t\t\t\t\t\t- Flight Number: " + rs.getString("flight_num"));
+                System.out.print("\n- Flight Time: " + rs.getString("flight_time"));
+                System.out.println("\t\t\t\t\t\t\t- Full Name: " + rs.getString("full_name"));
+                System.out.print("\n- Departure Time: " + rs.getString("departure_time"));
+                System.out.print("  - Arrival Time: " + rs.getString("arrival_time"));
+                System.out.println("\t\t\t- Address: " + rs.getString("address"));
+                System.out.print("\n- Flight Date: " + rs.getString("flight_date"));
+                System.out.println("\t\t\t\t\t\t- Quantity: " + rs.getInt("quantity"));
+                System.out.print("\n- Departure Location: " + rs.getString("departure_loc"));
+                System.out.print("  - Arrival Location: " + rs.getString("arrival_loc"));
+                System.out.println("\t\t\t- Status: " + rs.getString("b_status") + "\n");
+                line();
+            }
+            if (bookingID != booking) {
+                ClearScreen.clear();
+                Header.header();
+                System.out.println("\n-- Booking Does Not Exist ! --\n");
+                System.out.print("-- Enter to be back !");
+                getScanner().nextLine();
+                MenuUI.manageBooking();
+            }
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        }
+    }
+
+    public void selectABooking(int bookingID) {
+        int booking = 0;
+        try {
+            String sql = "CALL select_a_booking('" + bookingID + "')";
+            connection = getConnection();
+            pstmt = connection.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                booking = rs.getInt("booking_id");
+
+                System.out.print("\n- Booking ID: " + rs.getInt("booking_id"));
                 System.out.println("\t\t\t\t\t\t\t\t- Flight Number: " + rs.getString("flight_num"));
                 System.out.print("\n- Flight Time: " + rs.getString("flight_time"));
                 System.out.println("\t\t\t\t\t\t\t- Full Name: " + rs.getString("full_name"));
@@ -181,14 +248,15 @@ public class BookingDAL {
 
     public void cancelBooking(int bookingID) {
         try {
-            String sql1 = "DELETE FROM bookings WHERE booking_id = '" + bookingID + "'";
+            String sql = "DELETE FROM bookings WHERE booking_id = '" + bookingID + "'";
             connection = getConnection();
-            pstmt = connection.prepareStatement(sql1);
+            pstmt = connection.prepareStatement(sql);
             int k = pstmt.executeUpdate();
             if (k == 1) {
-                System.out.println("\n-- Delete Complete ! --\n");
+                Header.header();
+                System.out.println("-- Delete Complete ! --");
             } else {
-                System.out.println("\n-- Delete Failed !!! --\n");
+                System.out.println("-- Delete Failed !!! --");
             }
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
@@ -207,7 +275,9 @@ public class BookingDAL {
                 departure = rs.getString("departure_loc");
                 arrival = rs.getString("arrival_loc");
             } else {
-                System.out.println("\n Cannot get role !!!\n");
+                ClearScreen.clear();
+                System.out.println("\n- Cannot get role !!!");
+                MenuUI.cusScreen();
             }
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());

@@ -18,23 +18,12 @@ public class BookingUI {
     private String email;
     private String pass;
     private static String type = "";
-    // private String name;
-    // private String tel;
-    // private String id;
-    // private String address;
     private static String total;
 
     private BookingBL bbl = new BookingBL();
-    // private FlightBL fBl = new FlightBL();
 
     public void booking(int quantity, String bookingDate, double totalCost, int userID, int flightID) {
-        // ClearScreen.clear();
-        // quantity = 0;
-        // if (!UserDAL.isLogin) {
-        // FlightUI.chooseSchedule();
-        // UserUI.registerScreen(email, pass, name, tel, id, address);
-        // } else {
-        // fBl.displayFlight();
+
         System.out.println("\n\n=====================================================================");
         System.out.println("|                         SELECT TRAVEL OPTION                      |");
         System.out.println("+-------------------------------------------------------------------+");
@@ -45,7 +34,6 @@ public class BookingUI {
         System.out.print("\n- Choose a seat type: ");
         type = getScanner().nextLine();
         String yon;
-        // BookingDAL bDal = new BookingDAL();
         switch (type) {
             case "economy":
                 if (FlightDAL.checkERemain(flightID) == 0) {
@@ -207,6 +195,24 @@ public class BookingUI {
         MenuUI.cusScreen();
     }
 
+    public void viewAllBooking() {
+        ClearScreen.clear();
+        Header.header();
+        System.out.println(
+                "\n======================================================================================================================");
+        System.out.println(
+                "|                                                  LIST OF BOOKING                                                   |");
+        System.out.println(
+                "======================================================================================================================");
+        bbl.viewAllBooking();
+        System.out.println(
+                "-----------------------------------------------------------------------------------------------------------------------");
+        System.out.print("\n- Enter to be back !");
+        getScanner().nextLine();
+        ClearScreen.clear();
+        MenuUI.adminManageBooking();
+    }
+
     public void selectBooking(int bookingID, int userID) {
         ClearScreen.clear();
         Header.header();
@@ -217,6 +223,20 @@ public class BookingUI {
         System.out.println(
                 "======================================================================================================================");
         bbl.selectBooking(bookingID, userID);
+        System.out.println(
+                "-----------------------------------------------------------------------------------------------------------------------");
+    }
+
+    public void selectABooking(int bookingID) {
+        ClearScreen.clear();
+        Header.header();
+        System.out.println(
+                "\n======================================================================================================================");
+        System.out.println(
+                "|                                                   BOOKING DETAIL                                                   |");
+        System.out.println(
+                "======================================================================================================================");
+        bbl.selectABooking(bookingID);
         System.out.println(
                 "-----------------------------------------------------------------------------------------------------------------------");
     }
@@ -233,7 +253,7 @@ public class BookingUI {
         System.out.print("\n- Enter Booking ID: ");
         bookingID = getScanner().nextInt();
         selectBooking(bookingID, UserDAL.user_id);
-        System.out.println("\n- Do You Really Want To Delete The Ticket ? (Y/N)");
+        System.out.println("\n- Do You Really Want To Delete The Reservation ? (Y/N)");
         String choice = getScanner().nextLine().toLowerCase();
         switch (choice) {
             case "y":
@@ -246,7 +266,44 @@ public class BookingUI {
                 MenuUI.cusScreen();
                 break;
             default:
+                ClearScreen.clear();
                 System.out.println("\n-- Function does not exist ! --\n");
+                MenuUI.manageBooking();
+                break;
+        }
+    }
+
+    public void cancelABooking(int bookingID) {
+        ClearScreen.clear();
+        Header.header();
+        System.out.println(
+                "\n======================================================================================================================");
+        System.out.println(
+                "|                                                   CANCEL BOOKING                                                   |");
+        System.out.println(
+                "======================================================================================================================");
+        System.out.print("\n- Enter Booking ID: ");
+        bookingID = getScanner().nextInt();
+        selectABooking(bookingID);
+        System.out.println("\n- Do You Really Want To Delete The Reservation ? (Y/N)");
+        String choice = getScanner().nextLine().toLowerCase();
+        switch (choice) {
+            case "y":
+                ClearScreen.clear();
+                bbl.cancelBooking(bookingID);
+                break;
+            case "n":
+                ClearScreen.clear();
+                Header.header();
+                System.out.println("\n- No Cancel !");
+                System.out.print("\n- Enter To Be Back !");
+                getScanner().nextLine();
+                MenuUI.adminManageBooking();
+                break;
+            default:
+                ClearScreen.clear();
+                System.out.println("\n-- Function does not exist ! --\n");
+                MenuUI.adminManageBooking();
                 break;
         }
     }

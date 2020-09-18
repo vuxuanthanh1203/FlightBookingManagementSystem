@@ -163,17 +163,15 @@ public class MenuUI {
 
             System.out.print("Choice your action: ");
             choice = getScanner().nextInt();
+            // AdminUI adminUI = new AdminUI();
             switch (choice) {
                 case 1:
-                    System.out.println("Manage Flight");
+                    AdminUI.manageFlight();
                     break;
                 case 2:
                     adminManageBooking();
                     break;
-                case 4:
-                    userUI.changePass(email, pass, newPass);
-                    break;
-                case 5:
+                case 3:
                     UserDAL.resetKey();
                     menu();
                     break;
@@ -186,6 +184,24 @@ public class MenuUI {
 
     public static void adminManageBooking() {
         menuManageBooking();
+        System.out.print("Choice your action: ");
+        choice = getScanner().nextInt();
+        switch (choice) {
+            case 1:
+                bookingUI.viewAllBooking();
+                break;
+            case 2:
+                bookingUI.cancelABooking(bookingID);
+                break;
+            case 3:
+                ClearScreen.clear();
+                adminScreen();
+                break;
+            default:
+                ClearScreen.clear();
+                System.out.println("Function does not exist !");
+                break;
+        }
     }
 
     public static Scanner getScanner() {

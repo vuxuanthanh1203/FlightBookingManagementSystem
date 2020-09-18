@@ -13,8 +13,16 @@ public class BookingBL {
         bDal.viewBooking(userID);
     }
 
+    public void viewAllBooking() {
+        bDal.viewAllBooking();
+    }
+
     public void selectBooking(int bookingID, int userID) {
         bDal.selectBooking(bookingID, userID);
+    }
+
+    public void selectABooking(int bookingID) {
+        bDal.selectABooking(bookingID);
     }
 
     public void cancelBooking(int bookingID) {

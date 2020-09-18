@@ -14,7 +14,6 @@ public class Flight {
     private int route = 0;
     private int fleet = 0;
 
-
     public String getDepartureTime() {
         return departureTime;
     }
@@ -61,6 +60,7 @@ public class Flight {
 
     public static String getFlightDate(String flightDate) {
         while (true) {
+            System.out.print("\n- Flight Date (yyy/MM/dd): ");
             flightDate = getScanner().nextLine();
             if (flightDate.isEmpty()) {
                 UserUI.fieldBlank("|               -- Flight Date is not blank --        |");
@@ -76,6 +76,7 @@ public class Flight {
 
     public static String getFlightTime(String flightTime) {
         while (true) {
+            System.out.print("\n- Flight Time (hh:mm:ss): ");
             flightTime = getScanner().nextLine();
             if (flightTime.isEmpty()) {
                 UserUI.fieldBlank("|               -- Flight Time is not blank --        |");
@@ -91,6 +92,7 @@ public class Flight {
 
     public static String getDeTime(String DeTime) {
         while (true) {
+            System.out.print("\n- Departure Time (hh:mm:ss): ");
             DeTime = getScanner().nextLine();
             if (DeTime.isEmpty()) {
                 UserUI.fieldBlank("|           -- Departure Time is not blank --         |");
@@ -106,6 +108,7 @@ public class Flight {
 
     public static String getArrTime(String ArrTime) {
         while (true) {
+            System.out.print("\n- Arrival Time (hh:mm:ss): ");
             ArrTime = getScanner().nextLine();
             if (ArrTime.isEmpty()) {
                 UserUI.fieldBlank("|            -- Arrival Time is not blank --          |");
@@ -121,8 +124,8 @@ public class Flight {
 
     public static String getFNum(String flightNum) {
         while (true) {
-            System.out.print("\n- Input Flight Number: ");
-            flightNum = getScanner().nextLine();
+            System.out.print("\n- Input Flight Number(VD: VN 111): ");
+            flightNum = getScanner().nextLine().toUpperCase();
             if (flightNum.isEmpty()) {
                 UserUI.fieldBlank("|              -- Flight number is not blank --       |");
                 continue;
@@ -137,10 +140,18 @@ public class Flight {
 
     public static int getRoute(int route) {
         while (true) {
+            System.out.println("\n===================================================================================");
+            System.out.println("|                                       ROUTE ID                                  |");
+            System.out.println("+---------------------------------------------------------------------------------+");
+            System.out.println("| 1: HN - HCM | 2: HN - DN | 3: HCM - HN | 4: HCM - DN | 5: DN - HN | 6: DN - HCM |");
+            System.out.println("+---------------------------------------------------------------------------------+");
             System.out.print("\n- Input Route ID: ");
             route = getScanner().nextInt();
             if (route == 0) {
                 UserUI.fieldBlank("|                  -- Route is not blank --           |");
+                continue;
+            } else if (route > 6) {
+                System.out.println("\n- Route ID Does Not Exist !!!");
                 continue;
             }
             break;
@@ -150,10 +161,18 @@ public class Flight {
 
     public static int getFleet(int fleet) {
         while (true) {
+            System.out.println("\n===================================================================================");
+            System.out.println("|                                       FLEET ID                                  |");
+            System.out.println("+---------------------------------------------------------------------------------+");
+            System.out.println("| 1: Economy = 42 / Premium = 60 / Business = 72                                  |");
+            System.out.println("+---------------------------------------------------------------------------------+");
             System.out.print("\n- Input Fleet ID: ");
             fleet = getScanner().nextInt();
             if (fleet == 0) {
                 UserUI.fieldBlank("|                  -- Fleet is not blank --           |");
+                continue;
+            } else if (fleet != 1) {
+                System.out.println("\n- Fleet ID Does Not Exist !!!");
                 continue;
             }
             break;
@@ -163,10 +182,18 @@ public class Flight {
 
     public static int getFare(int fare) {
         while (true) {
+            System.out.println("\n===================================================================================");
+            System.out.println("|                                       FARE ID                                   |");
+            System.out.println("+---------------------------------------------------------------------------------+");
+            System.out.println("| 1: Economy = 1.500k / Premium = 3.500k / Business = 5.100k                      |");
+            System.out.println("+---------------------------------------------------------------------------------+");
             System.out.print("\n- Input Fare ID: ");
             fare = getScanner().nextInt();
             if (fare == 0) {
                 UserUI.fieldBlank("|                   -- Fare is not blank --           |");
+                continue;
+            } else if (fare != 1) {
+                System.out.println("\n- Fare ID Does Not Exist !!!");
                 continue;
             }
             break;
@@ -175,7 +202,7 @@ public class Flight {
     }
 
     public static boolean isFNumValid(String flightNum) {
-        final Pattern FNUM_REGEX = Pattern.compile("VN\s[0-9]{3-4}", Pattern.CASE_INSENSITIVE);
+        final Pattern FNUM_REGEX = Pattern.compile("VN\s[0-9]{3}", Pattern.CASE_INSENSITIVE);
         return FNUM_REGEX.matcher(flightNum).matches();
     }
 
@@ -188,7 +215,7 @@ public class Flight {
         Pattern TIME24HOURS_PATTERN = Pattern.compile("([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]");
         return TIME24HOURS_PATTERN.matcher(time).matches();
     }
-    
+
     public static Scanner getScanner() {
         return new Scanner(System.in);
     }

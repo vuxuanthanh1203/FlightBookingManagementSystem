@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 import group3.persistance.ClearScreen;
+import group3.ui.AdminUI;
 import group3.ui.FlightUI;
 import group3.ui.Header;
 import group3.ui.MenuUI;
@@ -15,6 +16,7 @@ public class FlightDAL {
     private static Connection connection = null;
     private static PreparedStatement pstmt = null;
     private static ResultSet rs = null;
+    public static int flight_id;
 
     private static Connection getConnection() throws SQLException {
         Connection conn = DbUtil.getInstance().getConnection();
@@ -195,6 +197,7 @@ public class FlightDAL {
             pstmt = connection.prepareStatement(sql);
             rs = pstmt.executeQuery();
             if (rs.next()) {
+                flight_id = rs.getInt("flight_id");
                 return true;
             }
         } catch (SQLException e) {
@@ -208,7 +211,7 @@ public class FlightDAL {
     public void addFlight(String flight_num, int route, int fleet, int fare, String flightDate, String flightTime,
             String departureTime, String arrivalTime) {
         try {
-            String sql = "INSERT INTO users(flight_num, route_id, fleet_id, fare_id, flight_date, flight_time, departure_time, arrival_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO flights(flight_num, route_id, fleet_id, fare_id, flight_date, flight_time, departure_time, arrival_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             connection = getConnection();
             pstmt = connection.prepareStatement(sql);
             pstmt.setString(1, flight_num);
@@ -218,8 +221,23 @@ public class FlightDAL {
             pstmt.setString(5, flightDate);
             pstmt.setString(6, flightTime);
             pstmt.setString(7, departureTime);
-            pstmt.setString(7, arrivalTime);
-            pstmt.executeUpdate();
+            pstmt.setString(8, arrivalTime);
+            int k = pstmt.executeUpdate();
+            ClearScreen.clear();
+            if (k == 1) {
+                ClearScreen.clear();
+                Header.header();
+                System.out.println("\n- Insert Flight Successfully !");
+                System.out.print("\n- Enter To Be Back !");
+                getScanner().nextLine();
+            } else {
+                ClearScreen.clear();
+                Header.header();
+                System.out.println("\n- Insert Failed !");
+                System.out.print("\n- Enter To Be Back !");
+                getScanner().nextLine();
+            }
+            getScanner().nextLine();
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
             System.out.println("SQLState: " + e.getSQLState());
@@ -227,7 +245,7 @@ public class FlightDAL {
         }
     }
 
-    public void modifyFlight(String flightID, String flightDate, String departureTime, String arrivalTime) {
+    public void modifyFlight(int flightID, String flightDate, String departureTime, String arrivalTime) {
         try {
             System.out.println("\n- Confirm Modification (Y/N): ");
             String choice = getScanner().nextLine().toLowerCase();
@@ -254,6 +272,51 @@ public class FlightDAL {
                     MenuUI.adminScreen();
                 default:
                     break;
+            }
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        }
+    }
+
+    public static void flightDetails(int flightID) {
+        try {
+            String sql = "CALL display_flight('" + FlightUI.flight_id + "')";
+            connection = getConnection();
+            pstmt = connection.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+            if (!rs.next()) {
+                System.out.println("\n-- No matching results --\n");
+                System.out.print("\n- Enter to be back !");
+                getScanner().nextLine();
+                AdminUI.manageFlight();
+            } else {
+                while (rs.next()) {
+                    String economy = rs.getDouble("e_fare") + "00.000 VND";
+                    String premium = rs.getDouble("p_fare") + "00.000 VND";
+                    String business = rs.getDouble("b_fare") + "00.000 VND";
+                    String e_remain = rs.getInt("remaining_e_seat") + "/" + rs.getInt("total_e_seat");
+                    String p_remain = rs.getInt("remaining_p_seat") + "/" + rs.getInt("total_p_seat");
+                    String b_remain = rs.getInt("remaining_b_seat") + "/" + rs.getInt("total_b_seat");
+                    if (rs.getInt("remaining_e_seat") == 0) {
+                        e_remain = "SOLD OUT";
+                    }
+                    if (rs.getInt("remaining_p_seat") == 0) {
+                        p_remain = "SOLD OUT";
+                    }
+                    if (rs.getInt("remaining_b_seat") == 0) {
+                        b_remain = "SOLD OUT";
+                    }
+                    String day = "";
+                    System.out.printf("\n %3d %15s %14s %14s %16s %24s %22s %23s \n", rs.getInt("flight_id"),
+                            rs.getString("flight_date"), rs.getString("departure_time"), rs.getString("arrival_time"),
+                            rs.getString("flight_num"), economy, premium, business);
+                    System.out.printf("\n %3s %15s %11s %14s %20s %21s %22s %23s \n", day, day,
+                            rs.getString("departure_loc"), rs.getString("arrival_loc"), rs.getString("flight_time"),
+                            e_remain, p_remain, b_remain);
+                    // line();
+                }
             }
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
