@@ -84,7 +84,7 @@ CREATE TABLE bookings(
     total_cost DOUBLE NOT NULL,
     flight_id INT NOT NULL,
     user_id INT NOT NULL,
-    b_status VARCHAR(255) DEFAULT('Complete'),
+    b_status VARCHAR(255) DEFAULT('Wait for pay'),
     PRIMARY KEY(booking_id),
     FOREIGN KEY (flight_id) REFERENCES flights(flight_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
@@ -205,6 +205,18 @@ INNER JOIN users AS u ON b.user_id = u.user_id
 WHERE u.user_id = cus_key;
 END //
 DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE view_booking_guest (IN cus_key VARCHAR(255))
+BEGIN
+SELECT b.booking_id, f.flight_num, f.flight_date, f.flight_time, r.departure_loc, r.arrival_loc, f.departure_time, f.arrival_time, u.full_name, b.booking_date, b.quantity, b.total_cost, u.address, b.b_status, u.email
+FROM flights AS f INNER JOIN bookings AS b ON f.flight_id = b.flight_id
+INNER JOIN routes AS r ON f.route_id = r.route_id
+INNER JOIN users AS u ON b.user_id = u.user_id
+WHERE u.email = cus_key;
+END //
+DELIMITER ;
+
 
 DELIMITER //
 CREATE PROCEDURE view_all_booking ()
