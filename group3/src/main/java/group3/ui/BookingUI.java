@@ -37,7 +37,7 @@ public class BookingUI {
         children = Booking.getChildren(children);
         quantity = adult + children;
         System.out.print("\n- Choose a seat type: ");
-        type = getScanner().nextLine();
+        type = getScanner().nextLine().toLowerCase();
         String yon;
         switch (type) {
             case "economy":
@@ -296,7 +296,7 @@ public class BookingUI {
                     MenuUI.menu();
                 } else {
                     System.out.print("\n- Input The Booking ID: ");
-                    int booking_ID = getScanner().nextInt();
+                    String booking_ID = getScanner().nextLine();
                     bbl.cancelBookingGuest(booking_ID);
                     MenuUI.menu();
                 }
@@ -328,7 +328,7 @@ public class BookingUI {
         MenuUI.adminManageBooking();
     }
 
-    public void selectBooking(int bookingID, int userID) {
+    public void selectBooking(String bookingID, int userID) {
         ClearScreen.clear();
         Header.header();
         System.out.println(
@@ -342,7 +342,7 @@ public class BookingUI {
                 "-----------------------------------------------------------------------------------------------------------------------");
     }
 
-    public void selectABooking(int bookingID) {
+    public void selectABooking(String bookingID) {
         ClearScreen.clear();
         Header.header();
         System.out.println(
@@ -356,7 +356,7 @@ public class BookingUI {
                 "-----------------------------------------------------------------------------------------------------------------------");
     }
 
-    public void cancelBooking(int bookingID, int userID) {
+    public void cancelBooking(String bookingID, int userID) {
         ClearScreen.clear();
         Header.header();
         System.out.println(
@@ -365,10 +365,10 @@ public class BookingUI {
                 "|                                                   CANCEL BOOKING                                                   |");
         System.out.println(
                 "======================================================================================================================");
-        System.out.println("\n(0: Back)");
+        System.out.println("\n(back: Back)");
         System.out.print("\n- Enter Booking ID: ");
-        bookingID = getScanner().nextInt();
-        if (bookingID == 0) {
+        bookingID = getScanner().nextLine();
+        if (bookingID.equalsIgnoreCase("back")) {
             ClearScreen.clear();
             MenuUI.manageBooking();
         } else {
@@ -398,7 +398,7 @@ public class BookingUI {
 
     }
 
-    public void cancelABooking(int bookingID) {
+    public void cancelABooking(String bookingID) {
         ClearScreen.clear();
         Header.header();
         System.out.println(
@@ -408,7 +408,7 @@ public class BookingUI {
         System.out.println(
                 "======================================================================================================================");
         System.out.print("\n- Enter Booking ID: ");
-        bookingID = getScanner().nextInt();
+        bookingID = getScanner().nextLine();
         selectABooking(bookingID);
         System.out.println("\n- Do You Really Want To Delete The Reservation ? (Y/N)");
         String choice = getScanner().nextLine().toLowerCase();

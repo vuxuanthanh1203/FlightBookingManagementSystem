@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.Scanner;
 
 import group3.persistance.ClearScreen;
+import group3.persistance.RandomID;
 import group3.ui.BookingUI;
 import group3.ui.Header;
 import group3.ui.MenuUI;
@@ -34,14 +35,15 @@ public class BookingDAL {
         try {
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             Date date = new Date();
-            String sql = "INSERT INTO bookings(quantity, booking_date, total_cost, flight_id, user_id) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO bookings(booking_id, quantity, booking_date, total_cost, flight_id, user_id) VALUES (?, ?, ?, ?, ?, ?)";
             connection = getConnection();
             pstmt = connection.prepareStatement(sql);
-            pstmt.setInt(1, quantity);
-            pstmt.setString(2, dateFormat.format(date));
-            pstmt.setDouble(3, totalCost);
-            pstmt.setInt(4, flightID);
-            pstmt.setInt(5, userID);
+            pstmt.setString(1, "BK-" + RandomID.random());
+            pstmt.setInt(2, quantity);
+            pstmt.setString(3, dateFormat.format(date));
+            pstmt.setDouble(4, totalCost);
+            pstmt.setInt(5, flightID);
+            pstmt.setInt(6, userID);
             int k = pstmt.executeUpdate();
             if (k == 1) {
                 ClearScreen.clear();
@@ -63,14 +65,15 @@ public class BookingDAL {
             System.out.println("last id = " + last_id);
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             Date date = new Date();
-            String sql = "INSERT INTO bookings(quantity, booking_date, total_cost, flight_id, user_id) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO bookings(booking_id, quantity, booking_date, total_cost, flight_id, user_id) VALUES (?, ?, ?, ?, ?, ?)";
             connection = getConnection();
             pstmt = connection.prepareStatement(sql);
-            pstmt.setInt(1, quantity);
-            pstmt.setString(2, dateFormat.format(date));
-            pstmt.setDouble(3, totalCost);
-            pstmt.setInt(4, flightID);
-            pstmt.setInt(5, last_id);
+            pstmt.setString(1,"BK-"+ RandomID.random());
+            pstmt.setInt(2, quantity);
+            pstmt.setString(3, dateFormat.format(date));
+            pstmt.setDouble(4, totalCost);
+            pstmt.setInt(5, flightID);
+            pstmt.setInt(6, last_id);
             int k = pstmt.executeUpdate();
             if (k == 1) {
                 ClearScreen.clear();
@@ -156,8 +159,8 @@ public class BookingDAL {
             pstmt = connection.prepareStatement(sql);
             rs = pstmt.executeQuery();
             if (rs.next()) {
-                System.out.print("\n- Booking ID: " + rs.getInt("booking_id"));
-                System.out.println("\t\t\t\t\t\t\t\t- Flight Number: " + rs.getString("flight_num"));
+                System.out.print("\n- Booking ID: " + rs.getString("booking_id"));
+                System.out.println("\t\t\t\t\t\t\t- Flight Number: " + rs.getString("flight_num"));
                 System.out.print("\n- Flight Time: " + rs.getString("flight_time"));
                 System.out.println("\t\t\t\t\t\t\t- Full Name: " + rs.getString("full_name"));
                 System.out.print("\n- Departure Time: " + rs.getString("departure_time"));
@@ -187,8 +190,8 @@ public class BookingDAL {
             rs = pstmt.executeQuery();
             if (rs.next()) { 
                 count ++;
-                System.out.print("\n- Booking ID: " + rs.getInt("booking_id"));
-                System.out.println("\t\t\t\t\t\t\t\t- Flight Number: " + rs.getString("flight_num"));
+                System.out.print("\n- Booking ID: " + rs.getString("booking_id"));
+                System.out.println("\t\t\t\t\t\t\t- Flight Number: " + rs.getString("flight_num"));
                 System.out.print("\n- Flight Time: " + rs.getString("flight_time"));
                 System.out.println("\t\t\t\t\t\t\t- Full Name: " + rs.getString("full_name"));
                 System.out.print("\n- Departure Time: " + rs.getString("departure_time"));
@@ -218,8 +221,8 @@ public class BookingDAL {
             pstmt = connection.prepareStatement(sql);
             rs = pstmt.executeQuery();
             while (rs.next()) {
-                System.out.print("\n- Booking ID: " + rs.getInt("booking_id"));
-                System.out.println("\t\t\t\t\t\t\t\t- Flight Number: " + rs.getString("flight_num"));
+                System.out.print("\n- Booking ID: " + rs.getString("booking_id"));
+                System.out.println("\t\t\t\t\t\t\t- Flight Number: " + rs.getString("flight_num"));
                 System.out.print("\n- Flight Time: " + rs.getString("flight_time"));
                 System.out.println("\t\t\t\t\t\t\t- Full Name: " + rs.getString("full_name"));
                 System.out.print("\n- Departure Time: " + rs.getString("departure_time"));
@@ -239,18 +242,18 @@ public class BookingDAL {
         }
     }
 
-    public void selectBooking(int bookingID, int userID) {
-        int booking = 0;
+    public void selectBooking(String bookingID, int userID) {
+        String booking = "";
         try {
             String sql = "CALL select_booking('" + userID + "','" + bookingID + "')";
             connection = getConnection();
             pstmt = connection.prepareStatement(sql);
             rs = pstmt.executeQuery();
             while (rs.next()) {
-                booking = rs.getInt("booking_id");
+                booking = rs.getString("booking_id");
 
-                System.out.print("\n- Booking ID: " + rs.getInt("booking_id"));
-                System.out.println("\t\t\t\t\t\t\t\t- Flight Number: " + rs.getString("flight_num"));
+                System.out.print("\n- Booking ID: " + rs.getString("booking_id"));
+                System.out.println("\t\t\t\t\t\t\t- Flight Number: " + rs.getString("flight_num"));
                 System.out.print("\n- Flight Time: " + rs.getString("flight_time"));
                 System.out.println("\t\t\t\t\t\t\t- Full Name: " + rs.getString("full_name"));
                 System.out.print("\n- Departure Time: " + rs.getString("departure_time"));
@@ -263,7 +266,7 @@ public class BookingDAL {
                 System.out.println("\t\t\t- Status: " + rs.getString("b_status") + "\n");
                 line();
             }
-            if (bookingID != booking) {
+            if (!bookingID.equals(booking)) {
                 ClearScreen.clear();
                 Header.header();
                 System.out.println("\n-- Booking Does Not Exist ! --\n");
@@ -278,18 +281,18 @@ public class BookingDAL {
         }
     }
 
-    public void selectABooking(int bookingID) {
-        int booking = 0;
+    public void selectABooking(String bookingID) {
+        String booking = "";
         try {
             String sql = "CALL select_a_booking('" + bookingID + "')";
             connection = getConnection();
             pstmt = connection.prepareStatement(sql);
             rs = pstmt.executeQuery();
             while (rs.next()) {
-                booking = rs.getInt("booking_id");
+                booking = rs.getString("booking_id");
 
-                System.out.print("\n- Booking ID: " + rs.getInt("booking_id"));
-                System.out.println("\t\t\t\t\t\t\t\t- Flight Number: " + rs.getString("flight_num"));
+                System.out.print("\n- Booking ID: " + rs.getString("booking_id"));
+                System.out.println("\t\t\t\t\t\t\t- Flight Number: " + rs.getString("flight_num"));
                 System.out.print("\n- Flight Time: " + rs.getString("flight_time"));
                 System.out.println("\t\t\t\t\t\t\t- Full Name: " + rs.getString("full_name"));
                 System.out.print("\n- Departure Time: " + rs.getString("departure_time"));
@@ -302,7 +305,7 @@ public class BookingDAL {
                 System.out.println("\t\t\t- Status: " + rs.getString("b_status") + "\n");
                 line();
             }
-            if (bookingID != booking) {
+            if (!bookingID.equals(booking)) {
                 ClearScreen.clear();
                 Header.header();
                 System.out.println("\n-- Booking Does Not Exist ! --\n");
@@ -317,7 +320,7 @@ public class BookingDAL {
         }
     }
 
-    public void cancelBooking(int bookingID) {
+    public void cancelBooking(String bookingID) {
         try {
             String sql = "DELETE FROM bookings WHERE booking_id = '" + bookingID + "'";
             connection = getConnection();
@@ -344,7 +347,7 @@ public class BookingDAL {
         }
     }
 
-    public void cancelBookingGuest(int bookingID) {
+    public void cancelBookingGuest(String bookingID) {
         try {
             String sql = "DELETE FROM bookings WHERE booking_id = '" + bookingID + "'";
             connection = getConnection();

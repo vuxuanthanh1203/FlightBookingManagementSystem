@@ -78,7 +78,7 @@ CREATE TABLE flightStatus(
 );
 
 CREATE TABLE bookings(
-	booking_id INT AUTO_INCREMENT,
+	booking_id VARCHAR(255),
     quantity INT NOT NULL,
     booking_date DATE NOT NULL,
     total_cost DOUBLE NOT NULL,
@@ -229,7 +229,7 @@ END //
 DELIMITER ;
 
 DELIMITER //
-CREATE PROCEDURE select_booking (IN cus_key INT, IN booking_id INT)
+CREATE PROCEDURE select_booking (IN cus_key INT, IN booking_id VARCHAR(255))
 BEGIN
 SELECT b.booking_id, f.flight_num, f.flight_date, f.flight_time, r.departure_loc, r.arrival_loc, f.departure_time, f.arrival_time, u.full_name, b.booking_date, b.quantity, b.total_cost, u.address, b.b_status
 FROM flights AS f INNER JOIN bookings AS b ON f.flight_id = b.flight_id
@@ -240,7 +240,7 @@ END //
 DELIMITER ;
 
 DELIMITER //
-CREATE PROCEDURE select_a_booking (IN booking_id INT)
+CREATE PROCEDURE select_a_booking (IN booking_id VARCHAR(255))
 BEGIN
 SELECT b.booking_id, f.flight_num, f.flight_date, f.flight_time, r.departure_loc, r.arrival_loc, f.departure_time, f.arrival_time, u.full_name, b.booking_date, b.quantity, b.total_cost, u.address, b.b_status
 FROM flights AS f INNER JOIN bookings AS b ON f.flight_id = b.flight_id

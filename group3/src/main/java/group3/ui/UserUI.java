@@ -66,8 +66,8 @@ public class UserUI {
         address = User.getAddress(address);
 
         ubl.registerPreOrder(email, name, tel, id, address);
-        System.out.println("\n\n- Sign Up Success !");
-        System.out.println("\n- You need to login to use the next function !");
+        System.out.println("\n\n- Successfully !");
+        System.out.println("\n- You can use email to check your reservation !");
         System.out.println("\n=====================================================================");
         System.out.print("\n- Enter to Continue !");
         getScanner().nextLine();

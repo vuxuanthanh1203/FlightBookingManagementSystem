@@ -15,7 +15,7 @@ public class MenuUI {
     static String bookingDate = "";
     static double totalCost = 0;
     static int flightID = 0;
-    static int bookingID = 0;
+    static String bookingID = "";
     static String pass = "";
     static String newPass = "";
 

@@ -21,19 +21,19 @@ public class BookingBL {
         bDal.viewAllBooking();
     }
 
-    public void selectBooking(int bookingID, int userID) {
+    public void selectBooking(String bookingID, int userID) {
         bDal.selectBooking(bookingID, userID);
     }
 
-    public void selectABooking(int bookingID) {
+    public void selectABooking(String bookingID) {
         bDal.selectABooking(bookingID);
     }
 
-    public void cancelBooking(int bookingID) {
+    public void cancelBooking(String bookingID) {
         bDal.cancelBooking(bookingID);
     }
 
-    public void cancelBookingGuest(int bookingID) {
+    public void cancelBookingGuest(String bookingID) {
         bDal.cancelBookingGuest(bookingID);
     }
 
