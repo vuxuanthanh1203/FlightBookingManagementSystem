@@ -142,7 +142,8 @@ public class MenuUI {
                 case 4:
                     ClearScreen.clear();
                     Header.header();
-                    System.out.println("\n(^.^) Thanks for choosing us ! (^.^)\n");
+                    System.out.println("\n\t\t   (^.^) Thanks for choosing us ! (^.^)\n");
+                    Header.footer();
                     System.exit(0);
                     break;
                 default:
