@@ -43,7 +43,11 @@ public class BookingUI {
             case "economy":
                 if (FlightDAL.checkERemain(flightID) == 0) {
                     ClearScreen.clear();
+                    Header.header();
                     System.out.println("\n-- SOLD OUT !!! --");
+                    System.out.println("\n- Enter To Be Back ! -");
+                    getScanner().nextLine();
+                    ClearScreen.clear();
                     if (UserDAL.isLogin) {
                         MenuUI.cusScreen();
                     } else {
@@ -103,7 +107,11 @@ public class BookingUI {
             case "premium":
                 if (FlightDAL.checkPRemain(flightID) == 0) {
                     ClearScreen.clear();
+                    Header.header();
                     System.out.println("\n-- SOLD OUT !!! --");
+                    System.out.println("\n- Enter To Be Back ! -");
+                    getScanner().nextLine();
+                    ClearScreen.clear();
                     if (UserDAL.isLogin) {
                         MenuUI.cusScreen();
                     } else {
@@ -163,7 +171,11 @@ public class BookingUI {
             case "business":
                 if (FlightDAL.checkBRemain(flightID) == 0) {
                     ClearScreen.clear();
+                    Header.header();
                     System.out.println("\n-- SOLD OUT !!! --");
+                    System.out.println("\n- Enter To Be Back ! -");
+                    getScanner().nextLine();
+                    ClearScreen.clear();
                     if (UserDAL.isLogin) {
                         MenuUI.cusScreen();
                     } else {
@@ -221,10 +233,10 @@ public class BookingUI {
                 }
                 break;
             default:
-                UserUI.fieldBlank("|                  -- Invalid Selection --            |");
+                ClearScreen.clear();
+                System.out.println("\n - Invalid Selection !");
                 break;
         }
-        // }
     }
 
     public void viewBooking(int userID) {
